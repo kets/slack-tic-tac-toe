@@ -20,7 +20,7 @@ public class TicTacToeService {
 	@POST
 	public Response processTTTCommand(String body) {
 		
-		return Response.status(Response.Status.OK).entity("Got the command!").build();
+		return Response.status(Response.Status.OK).entity(body + " Got the command!").build();
 	}
 	
 

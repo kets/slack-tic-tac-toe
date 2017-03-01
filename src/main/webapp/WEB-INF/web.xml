@@ -4,20 +4,20 @@
 	version="3.0">
 
 	<display-name>Slack TicTacToe Service</display-name>
-	<!-- <servlet>
+	 <servlet>
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<load-on-startup>1</load-on-startup>
-		<servlet-name>jersey-services</servlet-name>
-      <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-      <init-param>
+	<!-- 	<servlet-name>jersey-services</servlet-name>
+      <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class> -->
+     <!--  <init-param>
           <param-name>javax.ws.rs.core.Application</param-name>
           <param-value>com.slack.tictactoe</param-value>
-      </init-param>
+      </init-param> -->
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>jersey-services</servlet-name>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/v1/*</url-pattern>	
-	</servlet-mapping> -->
+	</servlet-mapping> 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

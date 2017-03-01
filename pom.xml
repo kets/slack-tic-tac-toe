@@ -59,22 +59,22 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>7.6.0.v20120127</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>7.6.0.v20120127</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>9.4.2.v20170220</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-util</artifactId>
-			<version>9.3.6.v20151106</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

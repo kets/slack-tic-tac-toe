@@ -9,9 +9,10 @@ import javax.ws.rs.core.MediaType;
 @Path("/slack-ttt/")
 @Produces(MediaType.APPLICATION_JSON)
 public class TicTacToeService {
+	@Path("heartbeat")
 	@GET
-	public Response helloWorld(String name) {
-		return Response.status(Response.Status.OK).entity(name).build();
+	public Response helloWorld() {
+		return Response.status(Response.Status.OK).entity("hello world!").build();
 	}
 
 }

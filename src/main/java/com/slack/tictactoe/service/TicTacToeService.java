@@ -1,5 +1,6 @@
-package com.slack.tictactoe;
+package com.slack.tictactoe.service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -8,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
-@Path("/tictactoe/")
+@Path("/ttt")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TicTacToeService {
@@ -18,11 +19,11 @@ public class TicTacToeService {
 		return Response.status(Response.Status.OK).entity("hello world!").build();
 	}
 	
-	@Path("ttt")
 	@POST
-	public Response processTTTCommand(String body) {
+	public Response processTTTCommand(HttpServletRequest request) {
+		String username = request.getParameter("username");
 		
-		return Response.status(Response.Status.OK).entity(body + " Got the command!").build();
+		return Response.status(Response.Status.OK).entity("Let's play! " +username).build();
 	}
 	
 

@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
 @Path("/ttt")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class TicTacToeService {
 	@Path("/heartbeat")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -20,10 +19,9 @@ public class TicTacToeService {
 	}
 	
 	@POST
-	public Response processTTTCommand(HttpServletRequest request) {
-		String username = request.getParameter("username");
+	public Response processTTTCommand(String request) {
 		
-		return Response.status(Response.Status.OK).entity("Let's play! " +username).build();
+		return Response.status(Response.Status.OK).entity("Let's play! " +request).build();
 	}
 	
 

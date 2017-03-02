@@ -37,38 +37,38 @@ public class TicTacToeService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response processTTTCommand(MultivaluedMap<String, String> formParams) {
 		//init the SLackInput POJO with the input params
-//		logger.info("size: " + formParams.size());
-//		logger.info("parms: " + formParams.entrySet().toString());
-//		if (formParams.containsKey("token")){
-//			slackParams.setToken(formParams.get("token").get(0));
-//			if (!slackParams.getToken().equals(System.getenv("token"))) {
-//				return Response.status(Response.Status.BAD_REQUEST).build();
-//			}			
-//		}
-//		slackParams.setChannel_id(formParams.get("channel_id").get(0));
-//		slackParams.setChannel_name(formParams.get("channel_name").get(0));
-//		slackParams.setUser_id(formParams.get("user_id").get(0));
-//		slackParams.setUser_name(formParams.get("user_name").get(0));
-//		slackParams.setTeam_id(formParams.get("team_id").get(0));
-//		slackParams.setTeam_domain(formParams.get("team_domain").get(0));
-//		slackParams.setText(formParams.get("text").get(0));
-//		slackParams.setResponse_url(formParams.get("response_url").get(0));
-//		
-//		slackParams.setCommand(formParams.get("text").get(0));
-//		
-//		logger.info(slackParams.toString());
+		logger.info("size: " + formParams.size());
+		logger.info("parms: " + formParams.entrySet().toString());
+		if (formParams.containsKey("token")){
+			slackParams.setToken(formParams.getFirst("token"));
+			if (!slackParams.getToken().equals(System.getenv("token"))) {
+				return Response.status(Response.Status.BAD_REQUEST).build();
+			}			
+		}
+		slackParams.setChannel_id(formParams.getFirst("channel_id"));
+		slackParams.setChannel_name(formParams.getFirst("channel_name"));
+		slackParams.setUser_id(formParams.getFirst("user_id"));
+		slackParams.setUser_name(formParams.getFirst("user_name"));
+		slackParams.setTeam_id(formParams.getFirst("team_id"));
+		slackParams.setTeam_domain(formParams.getFirst("team_domain"));
+		slackParams.setText(formParams.getFirst("text"));
+		slackParams.setResponse_url(formParams.getFirst("response_url"));
 		
-//		return Response.status(Response.Status.OK).entity("Let's play! " + slackParams.getUser_name()).build();
-		return Response.status(Response.Status.OK).entity("Let's play! " + formParams.getFirst("user_name")
-						+ " " + formParams.getFirst("response_url") 
-						+ " " + formParams.getFirst("user_id")
-						+ " " + formParams.getFirst("channel_id")
-						+ " " + formParams.getFirst("channel_name")
-						+ " " + formParams.getFirst("text")
-						+ " " + formParams.getFirst("token")
-						+ " " + formParams.getFirst("team_domain")
-						+ " " + formParams.getFirst("team_id")
-						+ " " + formParams.getFirst("token")).build();
+		slackParams.setCommand(formParams.getFirst("text"));
+		
+		logger.info(slackParams.toString());
+		
+		return Response.status(Response.Status.OK).entity("Let's play! " + slackParams.getUser_name()).build();
+//		return Response.status(Response.Status.OK).entity("Let's play! " + formParams.getFirst("user_name")
+//						+ " " + formParams.getFirst("response_url") 
+//						+ " " + formParams.getFirst("user_id")
+//						+ " " + formParams.getFirst("channel_id")
+//						+ " " + formParams.getFirst("channel_name")
+//						+ " " + formParams.getFirst("text")
+//						+ " " + formParams.getFirst("token")
+//						+ " " + formParams.getFirst("team_domain")
+//						+ " " + formParams.getFirst("team_id")
+//						+ " " + formParams.getFirst("token")).build();
 	}
 	
 

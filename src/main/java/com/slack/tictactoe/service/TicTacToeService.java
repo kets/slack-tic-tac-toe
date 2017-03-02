@@ -59,16 +59,6 @@ public class TicTacToeService {
 		logger.info(slackParams.toString());
 		
 		return Response.status(Response.Status.OK).entity("Let's play! " + slackParams.getUser_name()).build();
-//		return Response.status(Response.Status.OK).entity("Let's play! " + formParams.getFirst("user_name")
-//						+ " " + formParams.getFirst("response_url") 
-//						+ " " + formParams.getFirst("user_id")
-//						+ " " + formParams.getFirst("channel_id")
-//						+ " " + formParams.getFirst("channel_name")
-//						+ " " + formParams.getFirst("text")
-//						+ " " + formParams.getFirst("token")
-//						+ " " + formParams.getFirst("team_domain")
-//						+ " " + formParams.getFirst("team_id")
-//						+ " " + formParams.getFirst("token")).build();
 	}
 	
 

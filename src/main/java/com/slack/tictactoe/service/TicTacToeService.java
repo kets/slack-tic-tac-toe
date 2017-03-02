@@ -10,9 +10,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
 @Path("/ttt")
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class TicTacToeService {
-	@Path("heartbeat")
+	@Path("/heartbeat")
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	public Response helloWorld() {
 		return Response.status(Response.Status.OK).entity("hello world!").build();

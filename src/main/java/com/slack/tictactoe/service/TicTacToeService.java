@@ -26,7 +26,7 @@ public class TicTacToeService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response processTTTCommand(MultivaluedMap<String, String> formParams) {
 		
-		return Response.status(Response.Status.OK).entity("Let's play! " +formParams.getFirst("username")).build();
+		return Response.status(Response.Status.OK).entity("Let's play! " +formParams.getFirst("user_name")).build();
 	}
 	
 

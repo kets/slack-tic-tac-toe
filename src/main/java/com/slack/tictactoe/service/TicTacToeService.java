@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.slack.tictactoe.models.SlackInput;
+import com.slack.tictactoe.models.SlackResponse;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -35,16 +37,24 @@ public class TicTacToeService {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response processTTTCommand(MultivaluedMap<String, String> formParams) {
 		//init the SLackInput POJO with the input params
 		logger.info("size: " + formParams.size());
 		logger.info("parms: " + formParams.entrySet().toString());
-		if (formParams.containsKey("token")){
-			slackParams.setToken(formParams.getFirst("token"));
-			if (!slackParams.getToken().equals(System.getenv("token"))) {
-				return Response.status(Response.Status.BAD_REQUEST).build();
-			}			
+		SlackResponse slackRes = new SlackResponse();
+		if (!formParams.containsKey("token")){
+			slackRes.setResponse_type("ephemeral");
+			slackRes.setText("Slack request didn't include the token");
+			return Response.status(Response.Status.OK).entity(slackRes).build();				
 		}
+		
+		slackParams.setToken(formParams.getFirst("token"));
+		if (!slackParams.getToken().equals(System.getenv("token"))) {
+			slackRes.setResponse_type("ephemeral");
+			slackRes.setText("Provided token failed to verify");
+			return Response.status(Response.Status.OK).entity(slackRes).build();
+		}		
 		slackParams.setChannel_id(formParams.getFirst("channel_id"));
 		slackParams.setChannel_name(formParams.getFirst("channel_name"));
 		slackParams.setUser_id(formParams.getFirst("user_id"));

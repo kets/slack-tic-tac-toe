@@ -16,5 +16,9 @@ public class SlackResponse {
 	public void setResponse_type(String response_type) {
 		this.response_type = response_type;
 	}
+	@Override
+	public String toString() {
+		return getText();
+	}
 
 }

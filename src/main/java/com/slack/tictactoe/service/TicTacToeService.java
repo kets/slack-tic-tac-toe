@@ -37,7 +37,6 @@ public class TicTacToeService {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response processTTTCommand(MultivaluedMap<String, String> formParams) {
 		//init the SLackInput POJO with the input params
 		logger.info("size: " + formParams.size());
@@ -46,14 +45,16 @@ public class TicTacToeService {
 		if (!formParams.containsKey("token")){
 			slackRes.setResponse_type("ephemeral");
 			slackRes.setText("Slack request didn't include the token");
-			return Response.status(Response.Status.OK).entity(slackRes).build();				
+//			return Response.status(Response.Status.OK).entity("Slack request didn't include the token").build();
+			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}
 		
 		slackParams.setToken(formParams.getFirst("token"));
 		if (!slackParams.getToken().equals(System.getenv("token"))) {
 			slackRes.setResponse_type("ephemeral");
 			slackRes.setText("Provided token failed to verify");
-			return Response.status(Response.Status.OK).entity(slackRes).build();
+//			return Response.status(Response.Status.OK).entity("Provided token failed to verify").build();
+			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}		
 		slackParams.setChannel_id(formParams.getFirst("channel_id"));
 		slackParams.setChannel_name(formParams.getFirst("channel_name"));

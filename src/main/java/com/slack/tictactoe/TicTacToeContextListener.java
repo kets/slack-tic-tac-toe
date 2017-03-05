@@ -13,16 +13,17 @@ public class TicTacToeContextListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
-		
+		// remove the gameMap from ServletContext
+		ServletContext context = sce.getServletContext();
+		context.removeAttribute("gameMap");
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		//Add gameMap to the servlet context so it's available between HTTP requests
 		Map<String, TicTacToe> gameMap = new HashMap<String, TicTacToe>();
 		ServletContext context = sce.getServletContext();
 		context.setAttribute("gameMap", gameMap);
-		
 	}
 
 }

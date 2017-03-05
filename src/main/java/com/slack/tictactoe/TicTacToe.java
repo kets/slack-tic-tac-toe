@@ -22,8 +22,8 @@ public class TicTacToe {
 	}
 	
 	public void boardInit() {
-		for(int i = 0; i < board.length - 1; i++) {
-			for (int j = 0; j < board.length - 1; j++) {
+		for(int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
 				board[i][j] = Constants.EMPTY_CELL;
 			}
 		}
@@ -78,7 +78,7 @@ public class TicTacToe {
 	}
 	
 	private boolean checkRows(char mark) {
-		for (int i = 0; i < board.length - 1; i++) {
+		for (int i = 0; i < board.length; i++) {
 			if(checkRowCol(board[i][0], board[i][1], board[1][2], mark)) {
 				return true;
 			}
@@ -87,7 +87,7 @@ public class TicTacToe {
 	}
 	
 	private boolean checkCols(char mark) {
-		for (int j = 0; j < board.length - 1; j++) {
+		for (int j = 0; j < board.length; j++) {
 			if(checkRowCol(board[0][j], board[1][j], board[2][j], mark)) {
 				return true;
 			}
@@ -108,8 +108,8 @@ public class TicTacToe {
 	
 	public String displayBoard() {
 		StringBuilder boardBuilder = new StringBuilder();
-		for (int i = 0; i < board.length - 1; i++) {
-			for (int j = 0; j < board.length - 1; j++) {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
 				if(board[i][j] == Constants.X) {
 					boardBuilder.append(Constants.X);
 				} else if(board[i][j] == Constants.O) {
@@ -118,11 +118,11 @@ public class TicTacToe {
 					//empty cell
 					boardBuilder.append(Constants.EMPTY_CELL);
 				}
-				if (j < board.length - 1) {
+				if (j < board.length) {
 					boardBuilder.append(Constants.COL_SEPARATOR);
 				}
 			}
-			if (i < board.length - 1) {
+			if (i < board.length) {
 				boardBuilder.append(Constants.ROW_SEPARATOR);
 			}
 		}

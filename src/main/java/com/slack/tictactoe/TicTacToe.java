@@ -109,8 +109,13 @@ public class TicTacToe {
 	public String displayBoard() {
 		StringBuilder boardBuilder = new StringBuilder();
 		for (int i = 0; i < board.length; i++) {
-			boardBuilder.append(Constants.ROW_SEPARATOR);
+			if (i != 0) {
+				boardBuilder.append(Constants.ROW_SEPARATOR);
+			}			
 			for (int j = 0; j < board.length; j++) {
+				if (j == 0) {
+					boardBuilder.append(Constants.COL_SEPARATOR);
+				}
 				if(board[i][j] == Constants.X) {
 					boardBuilder.append(Constants.X);
 				} else if(board[i][j] == Constants.O) {
@@ -122,9 +127,6 @@ public class TicTacToe {
 				if (j < board.length) {
 					boardBuilder.append(Constants.COL_SEPARATOR);
 				}
-			}
-			if (i < board.length) {
-				boardBuilder.append(Constants.ROW_SEPARATOR);
 			}
 		}
 		return boardBuilder.toString();

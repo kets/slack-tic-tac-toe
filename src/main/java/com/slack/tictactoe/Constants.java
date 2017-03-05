@@ -24,7 +24,7 @@ public class Constants {
 	public static final char X = 'x';
 	public static final char O = 'o';
 	public static final char COL_SEPARATOR = '|';
-	public static final String ROW_SEPARATOR = "\n--------------\n";
+	public static final String ROW_SEPARATOR = "\n-+-+-\n";
 	
 	
 

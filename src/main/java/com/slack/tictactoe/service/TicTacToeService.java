@@ -1,5 +1,7 @@
 package com.slack.tictactoe.service;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,17 +45,13 @@ public class TicTacToeService {
 		logger.info("parms: " + formParams.entrySet().toString());
 		SlackResponse slackRes = new SlackResponse();
 		if (!formParams.containsKey("token")){
-			slackRes.setResponse_type("ephemeral");
 			slackRes.setText("Slack request didn't include the token");
-//			return Response.status(Response.Status.OK).entity("Slack request didn't include the token").build();
 			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}
 		
 		slackParams.setToken(formParams.getFirst("token"));
 		if (!slackParams.getToken().equals(System.getenv("token"))) {
-			slackRes.setResponse_type("ephemeral");
 			slackRes.setText("Provided token failed to verify");
-//			return Response.status(Response.Status.OK).entity("Provided token failed to verify").build();
 			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}		
 		slackParams.setChannel_id(formParams.getFirst("channel_id"));
@@ -63,11 +61,19 @@ public class TicTacToeService {
 		slackParams.setTeam_id(formParams.getFirst("team_id"));
 		slackParams.setTeam_domain(formParams.getFirst("team_domain"));
 		slackParams.setText(formParams.getFirst("text"));
-		slackParams.setResponse_url(formParams.getFirst("response_url"));
+		slackParams.setCommand(formParams.getFirst("command"));
 		
-		slackParams.setCommand(formParams.getFirst("text"));
+		//Decode response_url for delayed responses
+		try {
+			String responseUrl = java.net.URLDecoder.decode(formParams.getFirst("response_url"), "UTF-8");
+			slackParams.setResponse_url(responseUrl);
+		} catch (UnsupportedEncodingException ex) {
+			logger.error("Couldn't decode response_url");			
+		}		
 		
 		logger.info(slackParams.toString());
+		
+		//parse the text from the command 
 		
 		return Response.status(Response.Status.OK).entity("Let's play! " + slackParams.getUser_name()).build();
 	}

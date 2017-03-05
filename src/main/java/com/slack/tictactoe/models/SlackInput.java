@@ -116,12 +116,20 @@ public class SlackInput {
 	/**
 	 * @param response_url the response_url to set
 	 */
-	public void setResponse_url(String response_url) {
+	public void setResponse_url(String response_url) {		
 		this.response_url = response_url;
 	}
 	@Override
 	public String toString() {
-		return "user_name="+this.getUser_name() + "text="+this.getText() + "response_url="+this.getResponse_url();
+		return "user_name=[" + this.getUser_name() + 
+				"] text=[" + this.getText() + 
+				"] response_url=["+ this.getResponse_url() +
+				"] command=[" + this.getCommand() +
+				"] text=[" + this.getText() +
+				"] channel name=[" + this.getChannel_name() +
+				"] channel_id=[" + this.getChannel_id() +
+				"] team_id=[" + this.getTeam_id() +
+				"] team_domain=[" + this.getTeam_domain() + "]";
 	}
 	public String getTeam_domain() {
 		return team_domain;

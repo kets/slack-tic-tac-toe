@@ -16,7 +16,7 @@ public class ChannelResponse extends SlackResponse {
 	
 	@Override
 	public String toString() {
-		return this.response_type;
+		return this.response_type + " " + getText();
 	}
 
 }

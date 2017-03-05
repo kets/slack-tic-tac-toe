@@ -54,16 +54,16 @@ public class TicTacToeService {
 		logger.debug("size: " + formParams.size());
 		logger.debug("params: " + formParams.entrySet().toString());
 		final SlackInput slackParams = new SlackInput();
-		SlackResponse slackRes;
+		SlackResponse slackRes = new EphemeralResponse("default message");
 		if (!formParams.containsKey(Constants.TOKEN)){
 			logger.error(LogMessage.getLogMsg(Messages.TTT4001E));
-			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E))).build();
+			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E).toString())).build();
 		}
 		
 		slackParams.setToken(formParams.getFirst(Constants.TOKEN));
 		if (!slackParams.getToken().equals(System.getenv(Constants.TOKEN))) {
 			logger.error(LogMessage.getLogMsg(Messages.TTT4002E));
-			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E))).build();
+			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E).toString())).build();
 		}		
 		slackParams.setChannel_id(formParams.getFirst(Constants.CHANNEL_ID));
 		slackParams.setChannel_name(formParams.getFirst(Constants.CHANNEL_NAME));
@@ -104,7 +104,7 @@ public class TicTacToeService {
 				return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 							
 		}
-		return Response.status(Response.Status.OK).entity(new EphemeralResponse("message from TicTacToe")).build();
+		return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 	}
 	
 

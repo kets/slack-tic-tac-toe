@@ -16,6 +16,6 @@ public class EphemeralResponse extends SlackResponse {
 	
 	@Override
 	public String toString() {
-		return this.response_type;
+		return getText();
 	}
 }

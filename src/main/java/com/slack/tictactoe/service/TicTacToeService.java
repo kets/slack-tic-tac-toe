@@ -1,6 +1,8 @@
 package com.slack.tictactoe.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,16 +12,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.controllers.PlayController;
+import com.slack.tictactoe.i18n.Messages;
+import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
-
+import com.slack.tictactoe.TicTacToe;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 @Path("/ttt")
 public class TicTacToeService {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
-	private final SlackInput slackParams = new SlackInput();
+	private PlayController playController = new PlayController();
+	private Map<String, TicTacToe> channelToGameMap = new HashMap<String, TicTacToe>();
+	
 	
 	/**
 	 * Test GET method to ensure service is up and running
@@ -41,41 +50,61 @@ public class TicTacToeService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response processTTTCommand(MultivaluedMap<String, String> formParams) {
 		//init the SLackInput POJO with the input params
-		logger.info("size: " + formParams.size());
-		logger.info("parms: " + formParams.entrySet().toString());
+		logger.debug("size: " + formParams.size());
+		logger.debug("params: " + formParams.entrySet().toString());
+		final SlackInput slackParams = new SlackInput();
 		SlackResponse slackRes = new SlackResponse();
-		if (!formParams.containsKey("token")){
-			slackRes.setText("Slack request didn't include the token");
+		if (!formParams.containsKey(Constants.TOKEN)){
+			slackRes.setText(LogMessage.getLogMsg(Messages.TTT4001E));
+			logger.error(LogMessage.getLogMsg(Messages.TTT4001E));
 			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}
 		
-		slackParams.setToken(formParams.getFirst("token"));
-		if (!slackParams.getToken().equals(System.getenv("token"))) {
-			slackRes.setText("Provided token failed to verify");
+		slackParams.setToken(formParams.getFirst(Constants.TOKEN));
+		if (!slackParams.getToken().equals(System.getenv(Constants.TOKEN))) {
+			slackRes.setText(LogMessage.getLogMsg(Messages.TTT4002E));
+			logger.error(LogMessage.getLogMsg(Messages.TTT4002E));
 			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 		}		
-		slackParams.setChannel_id(formParams.getFirst("channel_id"));
-		slackParams.setChannel_name(formParams.getFirst("channel_name"));
-		slackParams.setUser_id(formParams.getFirst("user_id"));
-		slackParams.setUser_name(formParams.getFirst("user_name"));
-		slackParams.setTeam_id(formParams.getFirst("team_id"));
-		slackParams.setTeam_domain(formParams.getFirst("team_domain"));
-		slackParams.setText(formParams.getFirst("text"));
-		slackParams.setCommand(formParams.getFirst("command"));
+		slackParams.setChannel_id(formParams.getFirst(Constants.CHANNEL_ID));
+		slackParams.setChannel_name(formParams.getFirst(Constants.CHANNEL_NAME));
+		slackParams.setUser_id(formParams.getFirst(Constants.USER_ID));
+		slackParams.setUser_name(formParams.getFirst(Constants.USER_NAME));
+		slackParams.setTeam_id(formParams.getFirst(Constants.TEAM_ID));
+		slackParams.setTeam_domain(formParams.getFirst(Constants.TEAM_DOMAIN));
+		slackParams.setText(formParams.getFirst(Constants.TEXT));
+		slackParams.setCommand(formParams.getFirst(Constants.COMMAND));
 		
 		//Decode response_url for delayed responses
 		try {
-			String responseUrl = java.net.URLDecoder.decode(formParams.getFirst("response_url"), "UTF-8");
+			String responseUrl = java.net.URLDecoder.decode(formParams.getFirst(Constants.RESPONSE_URL), Constants.UTF8);
 			slackParams.setResponse_url(responseUrl);
 		} catch (UnsupportedEncodingException ex) {
-			logger.error("Couldn't decode response_url");			
+			logger.error(LogMessage.getLogMsg(Messages.TTT4003E));			
 		}		
 		
+		logger.info(LogMessage.getLogMsg(Messages.TTT4000I));
 		logger.info(slackParams.toString());
 		
 		//parse the text from the command 
+		String [] inputText = slackParams.getText().split(Constants.TEXT_DELIMITER);
 		
-		return Response.status(Response.Status.OK).entity("Let's play! " + slackParams.getUser_name()).build();
+		switch (inputText[0]) {
+			case Constants.PLAY:
+				slackRes = playController.processPlayCommand(slackParams, channelToGameMap);
+				break;
+			case Constants.MOVE:
+				break;
+			case Constants.BOARD:
+				break;
+			case Constants.HELP:
+				break;
+			default:
+				logger.error(LogMessage.getLogMsg(Messages.TTT4004E));
+				return Response.status(Response.Status.OK).entity(LogMessage.getLogMsg(Messages.TTT4004E)).build();
+							
+		}
+		return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 	}
 	
 

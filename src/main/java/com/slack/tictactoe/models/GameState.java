@@ -1,5 +1,7 @@
 package com.slack.tictactoe.models;
 
-public class GameState {
+public enum GameState {
+
+	TIE, IN_PROGRESS;
 
 }

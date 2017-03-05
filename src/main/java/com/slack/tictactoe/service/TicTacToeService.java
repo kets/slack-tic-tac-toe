@@ -13,7 +13,9 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.controllers.MoveController;
 import com.slack.tictactoe.controllers.PlayController;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.MultivaluedMap;
 public class TicTacToeService {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
 	private PlayController playController = new PlayController();
+	private MoveController moveController = new MoveController();
 	private Map<String, TicTacToe> channelToGameMap = new HashMap<String, TicTacToe>();
 	
 	
@@ -93,6 +96,7 @@ public class TicTacToeService {
 				slackRes = playController.processPlayCommand(slackParams, channelToGameMap);
 				break;
 			case Constants.MOVE:
+				slackRes = moveController.processMoveCommand(slackParams, channelToGameMap);
 				break;
 			case Constants.BOARD:
 				break;
@@ -101,10 +105,10 @@ public class TicTacToeService {
 			default:
 				logger.error(LogMessage.getLogMsg(Messages.TTT4004E));
 				slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4004E));
-				return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
+				return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 							
 		}
-		return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
+		return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 	}
 	
 

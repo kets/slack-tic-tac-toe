@@ -20,6 +20,12 @@ public class Constants {
 	public static final char COLON = ':';
 	public static final String IN_CHANNEL = "in_channel";
 	public static final String EPHEMERAL = "ephemeral";
+	public static final char EMPTY_CELL = '-';
+	public static final char X = 'x';
+	public static final char O = 'o';
+	public static final char COL_SEPARATOR = '|';
+	public static final String ROW_SEPARATOR = "\n--------------\n";
+	
 	
 
 }

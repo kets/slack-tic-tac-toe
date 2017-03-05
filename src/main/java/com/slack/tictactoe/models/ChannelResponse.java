@@ -8,7 +8,6 @@ public class ChannelResponse extends SlackResponse {
 	public ChannelResponse(String text) {
 		super(text);
 	}
-
 	
 	public String getResponse_type() {
 		return this.response_type;

@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.slack.tictactoe.Constants;
-
 public enum Messages {
 	TTT4000I,
 	TTT4001E,
@@ -50,7 +48,7 @@ public enum Messages {
 		try{
 			String name = this.name();
 			// This internally uses stringbuilder so don't need to do it ourselves
-			String completeMsg = name + Constants.COLON + " " + bundle.getString(name);
+			String completeMsg = bundle.getString(name);
 			return completeMsg;
 		}catch (NullPointerException e){
 			return '!' + this.name() + '!';

@@ -59,14 +59,16 @@ public class TicTacToeService {
 		final SlackInput slackParams = new SlackInput();
 		SlackResponse slackRes = new EphemeralResponse("default message");
 		if (!formParams.containsKey(Constants.TOKEN)){
-			logger.error(LogMessage.getLogMsg(Messages.TTT4001E));
-			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E).toString())).build();
+			slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E).toString());
+			logger.error(slackRes.getText());
+			return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 		}
 		
 		slackParams.setToken(formParams.getFirst(Constants.TOKEN));
 		if (!slackParams.getToken().equals(System.getenv(Constants.TOKEN))) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT4002E));
-			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E).toString())).build();
+			slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E).toString());
+			logger.error(slackRes.getText());
+			return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 		}		
 		slackParams.setChannel_id(formParams.getFirst(Constants.CHANNEL_ID));
 		slackParams.setChannel_name(formParams.getFirst(Constants.CHANNEL_NAME));

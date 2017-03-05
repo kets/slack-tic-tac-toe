@@ -17,9 +17,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 	
 	public SlackResponse processMoveCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
-		if (gameMap.containsKey(slackInput.getChannel_id())) {
-			return new ChannelResponse("An existing game is currently being played. Wait until it's completed to start a new one");
-		}
+		
 		
 		String firstPlayer = slackInput.getUser_name();
 		String secondPlayer = inputTokens[1];

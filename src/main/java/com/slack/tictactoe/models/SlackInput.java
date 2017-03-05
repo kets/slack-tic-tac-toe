@@ -122,10 +122,10 @@ public class SlackInput {
 	@Override
 	public String toString() {
 		return "user_name=[" + this.getUser_name() + 
+				"] user_id=[" + this.getUser_id() + 
 				"] text=[" + this.getText() + 
 				"] response_url=["+ this.getResponse_url() +
 				"] command=[" + this.getCommand() +
-				"] text=[" + this.getText() +
 				"] channel name=[" + this.getChannel_name() +
 				"] channel_id=[" + this.getChannel_id() +
 				"] team_id=[" + this.getTeam_id() +

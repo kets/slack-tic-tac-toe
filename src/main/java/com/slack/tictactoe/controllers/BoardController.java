@@ -11,16 +11,13 @@ import com.slack.tictactoe.models.ChannelResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 
-public class MoveController {
-	
-private static final Logger logger = LoggerFactory.getLogger(MoveController.class);
-	
-	public SlackResponse processMoveCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+public class BoardController {
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	public SlackResponse processBoardCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
-		
-		
-		return new ChannelResponse("");
+		TicTacToe game = gameMap.get(slackInput.getChannel_id());
+	
+		return new ChannelResponse(game.displayBoard());
 	}
-
 
 }

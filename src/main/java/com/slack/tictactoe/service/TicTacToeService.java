@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.controllers.BoardController;
 import com.slack.tictactoe.controllers.MoveController;
 import com.slack.tictactoe.controllers.PlayController;
 import com.slack.tictactoe.i18n.Messages;
@@ -23,16 +25,20 @@ import com.slack.tictactoe.models.EphemeralResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 import com.slack.tictactoe.TicTacToe;
+
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 @Path("/ttt")
-public class TicTacToeService {
+public class TicTacToeService extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
-	private PlayController playController = new PlayController();
-	private MoveController moveController = new MoveController();
-	private Map<String, TicTacToe> channelToGameMap = new HashMap<String, TicTacToe>();
-	
+	private PlayController playController = new PlayController();;
+	private MoveController moveController = new MoveController();;
+	private BoardController boardController = new BoardController();
+	@Context
+	private ServletContext context;
 	
 	/**
 	 * Test GET method to ensure service is up and running
@@ -92,15 +98,18 @@ public class TicTacToeService {
 		
 		//parse the text from the command 
 		String [] inputText = slackParams.getText().split(Constants.TEXT_DELIMITER);
+		@SuppressWarnings("unchecked")
+		Map<String, TicTacToe> gameMap = (HashMap<String, TicTacToe>) context.getAttribute("gameMap");
 		
 		switch (inputText[0]) {
 			case Constants.PLAY:
-				slackRes = playController.processPlayCommand(slackParams, channelToGameMap);
+				slackRes = playController.processPlayCommand(slackParams, gameMap);
 				break;
 			case Constants.MOVE:
-				slackRes = moveController.processMoveCommand(slackParams, channelToGameMap);
+				slackRes = moveController.processMoveCommand(slackParams, gameMap);
 				break;
 			case Constants.BOARD:
+				slackRes = boardController.processBoardCommand(slackParams, gameMap);
 				break;
 			case Constants.HELP:
 				break;

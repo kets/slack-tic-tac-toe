@@ -17,7 +17,7 @@ public class BoardController {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 	
-		return new ChannelResponse("```game.displayBoard()```");
+		return new ChannelResponse("```"+game.displayBoard() +"```");
 	}
 
 }

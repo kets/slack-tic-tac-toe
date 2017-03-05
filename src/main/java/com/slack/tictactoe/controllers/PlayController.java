@@ -11,10 +11,10 @@ import com.slack.tictactoe.models.ChannelResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 
-public class PlayController {
+public class PlayController implements CommandController {
 	private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
 	
-	public SlackResponse processPlayCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (gameMap.containsKey(slackInput.getChannel_id())) {
 			return new ChannelResponse("An existing game is currently being played. Wait until it's completed to start a new one");

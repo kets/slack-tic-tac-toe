@@ -103,13 +103,13 @@ public class TicTacToeService extends Application {
 		
 		switch (inputText[0]) {
 			case Constants.PLAY:
-				slackRes = playController.processPlayCommand(slackParams, gameMap);
+				slackRes = playController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.MOVE:
-				slackRes = moveController.processMoveCommand(slackParams, gameMap);
+				slackRes = moveController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.BOARD:
-				slackRes = boardController.processBoardCommand(slackParams, gameMap);
+				slackRes = boardController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.HELP:
 				break;
@@ -122,5 +122,4 @@ public class TicTacToeService extends Application {
 		return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 	}
 	
-
 }

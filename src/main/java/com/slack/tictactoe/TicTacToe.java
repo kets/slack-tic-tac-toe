@@ -3,25 +3,31 @@ package com.slack.tictactoe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.slack.tictactoe.models.GameState;
+
 public class TicTacToe {
 	private final char [][] board;
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToe.class);
 	private String firstPlayer;
 	private String secondPlayer;
-	private char currentPlayer;
+	private String currentPlayer;
+	private char currentPiece;
 	private int movesMade;
+	private GameState gameState;
 	
 	public TicTacToe (String firstPlayer, String secondPlayer) {
-		logger.debug("initializing Tic Tac Toe board");
+		logger.debug("initializing (3x3) Tic Tac Toe board");
 		this.board = new char[3][3];
-		this.firstPlayer = firstPlayer;
-		this.secondPlayer =  secondPlayer;
-		this.currentPlayer = Constants.X;
+		this.setFirstPlayer(firstPlayer);
+		this.setSecondPlayer(secondPlayer);
+		this.setCurrentPlayer(firstPlayer);
 		this.movesMade = 0;
+		this.setCurrentPiece(Constants.X); //first player is X, second player is O
+		this.setGameState(GameState.IN_PROGRESS);
 		boardInit();
 	}
 	
-	public void boardInit() {
+	private void boardInit() {
 		for(int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board.length; j++) {
 				board[i][j] = Constants.EMPTY_CELL;
@@ -29,31 +35,42 @@ public class TicTacToe {
 		}
 	}
 	
-	public boolean makeMove(int row, int col) {
+	public void makeMove(int row, int col) {
 		//ensure the move is valid
 		if (validateMove(row, col)){
-			board[row][col] = currentPlayer;
+			board[row][col] = currentPiece;
 			movesMade++;
-			return true;
 		}
-		//check if current player is winnder
-		if(checkForWin(currentPlayer)){
-			return false; //for now
-			
+		
+		//check if current player is winner
+		if(checkForWin(currentPiece)){
+			if (this.currentPiece == Constants.X) {
+				this.setGameState(GameState.PLAYER1_WINNER);
+			} else {
+				this.setGameState(GameState.PLAYER2_WINNDER);
+			}
+			return; 			
 		}
 		
 		//check for tie
 		if(movesMade == 9) {
 			//tie game
-			return false;
+			this.setGameState(GameState.TIE);
+			return;
 		}
+		
 		//switch the symbol for the second player
-		currentPlayer = Constants.O;
-		
-		//check the game status of the player
-		
-		return false;
-		
+		setCurrentPiece(Constants.O);
+		//swap the player
+		swapPlayer();		
+	}
+	
+	private void swapPlayer() {
+		if(this.currentPlayer.equals(this.firstPlayer)) {
+			this.currentPlayer = this.secondPlayer;
+		} else {
+			this.currentPlayer = this.firstPlayer;
+		}
 	}
 	
 	private boolean validateMove(int row, int col) {
@@ -77,6 +94,16 @@ public class TicTacToe {
 			return false;
 		}
 		return true;
+	}
+	
+	public String whoseTurn() {
+		StringBuilder sb = new StringBuilder();
+		if(this.currentPiece == Constants.X) {
+			sb.append(this.firstPlayer);
+		} else if(this.currentPiece == Constants.O) {
+			sb.append(this.secondPlayer);
+		}
+		return sb.append("\'s turn.").toString();
 	}
 	
 	private boolean checkForWin(char mark) {
@@ -136,6 +163,30 @@ public class TicTacToe {
 			}
 		}
 		return boardBuilder.toString();
+	}
+	
+	public void setFirstPlayer(String firstPlayer) {
+		this.firstPlayer = firstPlayer;
+	}
+	
+	public void setCurrentPlayer(String currentPlayer){
+		this.currentPlayer = currentPlayer;
+	}
+	
+	public void setCurrentPiece(char currentPiece){
+		this.currentPiece = currentPiece;
+	}
+	
+	public void setSecondPlayer(String secondPlayer) {
+		this.secondPlayer = secondPlayer;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 	
 	

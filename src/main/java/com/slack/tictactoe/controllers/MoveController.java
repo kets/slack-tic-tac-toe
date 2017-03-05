@@ -11,11 +11,11 @@ import com.slack.tictactoe.models.ChannelResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 
-public class MoveController {
+public class MoveController implements CommandController{
 	
 private static final Logger logger = LoggerFactory.getLogger(MoveController.class);
 	
-	public SlackResponse processMoveCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 3) {
 			return new ChannelResponse("Insufficient input params. Please try again");
@@ -28,13 +28,13 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 		}
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
+		//TODO validate coordinates
 		int row = Integer.parseInt(inputTokens[1]);
 		int col = Integer.parseInt(inputTokens[2]);
-		if (!game.makeMove(row, col)){
-			return new ChannelResponse("Invalid Params. Please try again.");
-		}
 		
-		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n It's " + slackInput.getUser_name() + " turn");
+		game.makeMove(row, col);
+		
+		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n\n It's " + game.whoseTurn());
 	}
 
 

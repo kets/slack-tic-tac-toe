@@ -11,9 +11,9 @@ import com.slack.tictactoe.models.ChannelResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 
-public class BoardController {
+public class BoardController implements CommandController  {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	public SlackResponse processBoardCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 1) {
 			return new ChannelResponse("Insufficient input params. Please try again");

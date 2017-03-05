@@ -29,41 +29,47 @@ public class TicTacToe {
 		}
 	}
 	
-	public void makeMove(int row, int col) {
+	public boolean makeMove(int row, int col) {
 		//ensure the move is valid
 		if (validateMove(row, col)){
 			board[row][col] = currentPlayer;
 			movesMade++;
+			return true;
 		}
 		//check if current player is winnder
 		if(checkForWin(currentPlayer)){
+			return false; //for now
 			
 		}
 		
 		//check for tie
 		if(movesMade == 9) {
 			//tie game
+			return false;
 		}
 		//switch the symbol for the second player
 		currentPlayer = Constants.O;
 		
 		//check the game status of the player
 		
+		return false;
+		
 	}
 	
 	private boolean validateMove(int row, int col) {
-		if (board[row][col] != Constants.EMPTY_CELL) {
-			//TODO add to messages
-			logger.error("CELL IS ALREADY OCCUPIED");
-			return false;
-		}
-		
 		if (row < 0 || row > board.length - 1 ||
 				col < 0 || col > board.length - 1) {
 			//TODO add to messages
 			logger.error("Invalid board params");
 			return false;
 		}	
+		
+		if (board[row][col] != Constants.EMPTY_CELL) {
+			//TODO add to messages
+			logger.error("CELL IS ALREADY OCCUPIED");
+			return false;
+		}
+		
 		
 		if (movesMade > 9) {
 			//TODO add to messages
@@ -122,7 +128,7 @@ public class TicTacToe {
 					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.O + Constants.TEXT_DELIMITER);
 				} else {
 					//empty cell
-					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.O + Constants.TEXT_DELIMITER);
+					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.EMPTY_CELL + Constants.TEXT_DELIMITER);
 				}
 				if (j < board.length) {
 					boardBuilder.append(Constants.COL_SEPARATOR);

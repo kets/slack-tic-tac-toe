@@ -17,9 +17,24 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 	
 	public SlackResponse processMoveCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
+		if (inputTokens.length < 3) {
+			return new ChannelResponse("Insufficient input params. Please try again");
+		}
+		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
+		//check if this is a valid game
+		if (!gameMap.containsKey(slackInput.getChannel_id())) {
+			//TODO add message
+			return new ChannelResponse("Not a valid game");
+		}
+		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
+		int row = Integer.parseInt(inputTokens[1]);
+		int col = Integer.parseInt(inputTokens[2]);
+		if (!game.makeMove(row, col)){
+			return new ChannelResponse("Invalid Params. Please try again.");
+		}
 		
-		return new ChannelResponse("");
+		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n It's " + slackInput.getUser_name() + " turn");
 	}
 
 

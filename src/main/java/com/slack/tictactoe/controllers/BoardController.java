@@ -15,6 +15,10 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	public SlackResponse processBoardCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
+		if (inputTokens.length < 1) {
+			return new ChannelResponse("Insufficient input params. Please try again");
+		}
+		logger.debug("inputTokens: " + inputTokens[0]);
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 	
 		return new ChannelResponse("```"+game.displayBoard() +"```");

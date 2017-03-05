@@ -63,7 +63,7 @@ public class TicTacToeService extends Application {
 		logger.debug("size: " + formParams.size());
 		logger.debug("params: " + formParams.entrySet().toString());
 		final SlackInput slackParams = new SlackInput();
-		SlackResponse slackRes = new EphemeralResponse("default message");
+		SlackResponse slackRes = null;
 		if (!formParams.containsKey(Constants.TOKEN)){
 			slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E).toString());
 			logger.error(slackRes.getText());
@@ -114,8 +114,8 @@ public class TicTacToeService extends Application {
 			case Constants.HELP:
 				break;
 			default:
-				logger.error(LogMessage.getLogMsg(Messages.TTT4004E));
 				slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4004E));
+				logger.error(slackRes.getText());				
 				return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
 							
 		}

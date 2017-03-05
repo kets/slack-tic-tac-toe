@@ -117,12 +117,12 @@ public class TicTacToe {
 					boardBuilder.append(Constants.COL_SEPARATOR);
 				}
 				if(board[i][j] == Constants.X) {
-					boardBuilder.append(Constants.X);
+					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.X + Constants.TEXT_DELIMITER);
 				} else if(board[i][j] == Constants.O) {
-					boardBuilder.append(Constants.X);
+					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.O + Constants.TEXT_DELIMITER);
 				} else {
 					//empty cell
-					boardBuilder.append(Constants.EMPTY_CELL);
+					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.EMPTY_CELL + Constants.TEXT_DELIMITER);
 				}
 				if (j < board.length) {
 					boardBuilder.append(Constants.COL_SEPARATOR);

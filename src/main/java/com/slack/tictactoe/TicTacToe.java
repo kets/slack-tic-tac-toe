@@ -122,7 +122,7 @@ public class TicTacToe {
 					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.O + Constants.TEXT_DELIMITER);
 				} else {
 					//empty cell
-					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.EMPTY_CELL + Constants.TEXT_DELIMITER);
+					boardBuilder.append(Constants.TEXT_DELIMITER + Constants.O + Constants.TEXT_DELIMITER);
 				}
 				if (j < board.length) {
 					boardBuilder.append(Constants.COL_SEPARATOR);

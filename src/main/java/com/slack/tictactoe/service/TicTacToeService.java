@@ -17,6 +17,7 @@ import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.controllers.PlayController;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
+import com.slack.tictactoe.models.EphemeralResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
 import com.slack.tictactoe.TicTacToe;
@@ -53,18 +54,16 @@ public class TicTacToeService {
 		logger.debug("size: " + formParams.size());
 		logger.debug("params: " + formParams.entrySet().toString());
 		final SlackInput slackParams = new SlackInput();
-		SlackResponse slackRes = new SlackResponse();
+		SlackResponse slackRes;
 		if (!formParams.containsKey(Constants.TOKEN)){
-			slackRes.setText(LogMessage.getLogMsg(Messages.TTT4001E));
 			logger.error(LogMessage.getLogMsg(Messages.TTT4001E));
-			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
+			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E))).build();
 		}
 		
 		slackParams.setToken(formParams.getFirst(Constants.TOKEN));
 		if (!slackParams.getToken().equals(System.getenv(Constants.TOKEN))) {
-			slackRes.setText(LogMessage.getLogMsg(Messages.TTT4002E));
 			logger.error(LogMessage.getLogMsg(Messages.TTT4002E));
-			return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
+			return Response.status(Response.Status.OK).entity(new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E))).build();
 		}		
 		slackParams.setChannel_id(formParams.getFirst(Constants.CHANNEL_ID));
 		slackParams.setChannel_name(formParams.getFirst(Constants.CHANNEL_NAME));
@@ -101,10 +100,11 @@ public class TicTacToeService {
 				break;
 			default:
 				logger.error(LogMessage.getLogMsg(Messages.TTT4004E));
-				return Response.status(Response.Status.OK).entity(LogMessage.getLogMsg(Messages.TTT4004E)).build();
+				slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4004E));
+				return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
 							
 		}
-		return Response.status(Response.Status.OK).entity(slackRes.toString()).build();
+		return Response.status(Response.Status.OK).entity(new EphemeralResponse("message from TicTacToe")).build();
 	}
 	
 

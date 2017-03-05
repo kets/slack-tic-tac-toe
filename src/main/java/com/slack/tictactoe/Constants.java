@@ -18,6 +18,8 @@ public class Constants {
 	public static final String RESPONSE_URL = "response_url";
 	public static final String UTF8 = "UTF-8";
 	public static final char COLON = ':';
+	public static final String IN_CHANNEL = "in_channel";
+	public static final String EPHEMERAL = "ephemeral";
 	
 
 }

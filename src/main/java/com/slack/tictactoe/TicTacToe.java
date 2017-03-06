@@ -35,65 +35,64 @@ public class TicTacToe {
 		}
 	}
 	
-	public void makeMove(int row, int col) {
+	public void makeMove(int row, int col) throws IllegalArgumentException {
 		//ensure the move is valid
-		if (validateMove(row, col)){
-			board[row][col] = currentPiece;
-			movesMade++;
-		}
+		validateMove(row, col);
+		
+		board[row][col] = currentPiece;
+		movesMade++;
 		
 		//check if current player is winner
-		if(checkForWin(currentPiece)){
+		if(checkForWin(this.currentPiece)){
 			if (this.currentPiece == Constants.X) {
 				this.setGameState(GameState.PLAYER1_WINNER);
 			} else {
-				this.setGameState(GameState.PLAYER2_WINNDER);
+				this.setGameState(GameState.PLAYER2_WINNER);
 			}
 			return; 			
 		}
 		
 		//check for tie
-		if(movesMade == 9) {
+		if(movesMade >= 9) {
 			//tie game
 			this.setGameState(GameState.TIE);
 			return;
 		}
 		
-		//switch the symbol for the second player
-		setCurrentPiece(Constants.O);
 		//swap the player
 		swapPlayer();		
 	}
 	
 	private void swapPlayer() {
 		if(this.currentPlayer.equals(this.firstPlayer)) {
-			this.currentPlayer = this.secondPlayer;
+			//switch the symbol for the second player
+			setCurrentPiece(Constants.O);
+			this.currentPlayer = this.secondPlayer;		
 		} else {
+			//switch the symbol for the first player
+			setCurrentPiece(Constants.X);
 			this.currentPlayer = this.firstPlayer;
 		}
 	}
 	
-	private boolean validateMove(int row, int col) {
+	/**
+	 * 
+	 * @param row
+	 * @param col
+	 * @throws IllegalArgumentException
+	 */
+	private void validateMove(int row, int col) throws IllegalArgumentException {
 		if (row < 0 || row > board.length - 1 ||
 				col < 0 || col > board.length - 1) {
 			//TODO add to messages
-			logger.error("Invalid board params");
-			return false;
+			throw new IllegalArgumentException ("Invalid board coordinates. Please try again.");
 		}	
 		
 		if (board[row][col] != Constants.EMPTY_CELL) {
 			//TODO add to messages
-			logger.error("CELL IS ALREADY OCCUPIED");
-			return false;
+			throw new IllegalArgumentException ("Cell is occurpied. Please try again.");
 		}
 		
-		
-		if (movesMade > 9) {
-			//TODO add to messages
-			logger.error("Illegal move");
-			return false;
-		}
-		return true;
 	}
 	
 	public String whoseTurn() {
@@ -107,7 +106,7 @@ public class TicTacToe {
 	}
 	
 	private boolean checkForWin(char mark) {
-		return checkRows(mark) || checkCols(mark) | checkDiagonals(mark);
+		return checkRows(mark) || checkCols(mark) || checkDiagonals(mark);
 	}
 	
 	private boolean checkRows(char mark) {
@@ -183,6 +182,10 @@ public class TicTacToe {
 
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	public String getCurrentPlayer() {
+		return this.currentPlayer;
 	}
 
 	public void setGameState(GameState gameState) {

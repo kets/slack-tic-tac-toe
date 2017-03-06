@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.controllers.BoardController;
+import com.slack.tictactoe.controllers.CommandController;
 import com.slack.tictactoe.controllers.MoveController;
 import com.slack.tictactoe.controllers.PlayController;
 import com.slack.tictactoe.i18n.Messages;
@@ -34,9 +35,8 @@ import javax.ws.rs.core.MultivaluedMap;
 @Path("/ttt")
 public class TicTacToeService extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
-	private PlayController playController = new PlayController();;
-	private MoveController moveController = new MoveController();;
-	private BoardController boardController = new BoardController();
+	private CommandController commandController;
+
 	@Context
 	private ServletContext context;
 	
@@ -103,13 +103,16 @@ public class TicTacToeService extends Application {
 		
 		switch (inputText[0]) {
 			case Constants.PLAY:
-				slackRes = playController.processCommand(slackParams, gameMap);
+				commandController = new PlayController();
+				slackRes = commandController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.MOVE:
-				slackRes = moveController.processCommand(slackParams, gameMap);
+				commandController = new MoveController();
+				slackRes = commandController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.BOARD:
-				slackRes = boardController.processCommand(slackParams, gameMap);
+				commandController = new BoardController();
+				slackRes = commandController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.HELP:
 				break;

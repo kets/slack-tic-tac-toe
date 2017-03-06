@@ -32,9 +32,9 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
 		//check if it is the current player's turn
-		if(!isLegalMove(slackInput.getUser_name(), game)){
-			return new EphemeralResponse("Please wait for your turn!");
-		}		
+//		if(!isLegalMove(slackInput.getUser_name(), game)){
+//			return new EphemeralResponse("Please wait for your turn!");
+//		}		
 		
 		try {
 			// validate coordinates

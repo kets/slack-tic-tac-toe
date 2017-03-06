@@ -19,8 +19,8 @@ public class BoardController implements CommandController  {
 			return new ChannelResponse("Insufficient input params. Please try again");
 		}
 		
-		if (gameMap.containsKey(slackInput.getChannel_id())) {
-			return new ChannelResponse("An existing game is currently being played. Wait until it's completed to start a new one");
+		if (!gameMap.containsKey(slackInput.getChannel_id())) {
+			return new ChannelResponse("No game being played.");
 		}
 		logger.debug("inputTokens: " + inputTokens[0]);
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());

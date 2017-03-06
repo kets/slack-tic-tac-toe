@@ -22,7 +22,9 @@ public class PlayController implements CommandController {
 		}
 		
 		String firstPlayer = slackInput.getUser_name();
-		String secondPlayer = inputTokens[1].substring(1);
+		//TODO in order to emulate another player, will need to hard code the username as the second player.
+//		String secondPlayer = inputTokens[1].substring(1);
+		String secondPlayer = slackInput.getUser_name();
 		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);
 		gameMap.put(slackInput.getChannel_id(), game);

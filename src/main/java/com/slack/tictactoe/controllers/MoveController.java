@@ -20,7 +20,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 3) {
-			return new ChannelResponse("Insufficient input params. Please try again");
+			return new EphemeralResponse("Insufficient input params. Please try again");
 		}
 		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
 		//check if this is a valid game
@@ -31,7 +31,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
-		//TODO check if it is the current player's turn
+		//check if it is the current player's turn
 		if(!isLegalMove(slackInput.getUser_name(), game)){
 			return new EphemeralResponse("Please wait for your turn!");
 		}		

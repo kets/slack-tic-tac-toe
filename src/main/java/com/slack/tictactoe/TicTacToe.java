@@ -90,7 +90,7 @@ public class TicTacToe {
 		
 		if (board[row][col] != Constants.EMPTY_CELL) {
 			//TODO add to messages
-			throw new IllegalArgumentException ("Cell is occurpied. Please try again.");
+			throw new IllegalArgumentException ("Cell is occupied. Please try again.");
 		}
 		
 	}
@@ -111,7 +111,7 @@ public class TicTacToe {
 	
 	private boolean checkRows(char mark) {
 		for (int i = 0; i < board.length; i++) {
-			if(checkRowCol(board[i][0], board[i][1], board[1][2], mark)) {
+			if(checkRowCol(board[i][0], board[i][1], board[i][2], mark)) {
 				return true;
 			}
 		}		

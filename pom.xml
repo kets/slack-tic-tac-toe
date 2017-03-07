@@ -48,10 +48,6 @@
 			<id>local-maven-repo</id>
 			<url>file:///${project.basedir}/dep-jar</url>
 		</repository>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -99,11 +95,6 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ullink.slack</groupId>
-			<artifactId>simpleslackapi</artifactId>
-			<version>0.6.0</version>
 		</dependency>
 	</dependencies>
 </project>

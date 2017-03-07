@@ -11,10 +11,6 @@ import com.slack.tictactoe.models.ChannelResponse;
 import com.slack.tictactoe.models.EphemeralResponse;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.models.SlackResponse;
-import com.ullink.slack.simpleslackapi.SlackChannel;
-import com.ullink.slack.simpleslackapi.SlackSession;
-import com.ullink.slack.simpleslackapi.SlackUser;
-import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 
 public class PlayController implements CommandController {
 	private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
@@ -27,30 +23,20 @@ public class PlayController implements CommandController {
 		}
 		
 		String firstPlayer = slackInput.getUser_name();
-		String secondPlayer = inputTokens[1].substring(1);
-		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
 		
-		//TODO validate if second user is a real user in the channel
-		SlackSession session = SlackSessionFactory.createWebSocketSlackSession(slackInput.getToken());
-        try {
-			session.connect();
-		} catch (IOException e) {
-			return new EphemeralResponse("Could not connect to Slack with the provided token.");
+		//TODO validate second user by checking if the user_id is passed in the text field
+        //The toggle to get the user_id and channel_is has been turned on
+        //<@U4BJG47DG|oxo>
+		// parse the string and look for a pipe
+		// two people cannot have the same username in a team, so the username is unique
+		
+		if (!inputTokens[1].contains("|")) {
+			return new EphemeralResponse("The user was not found in the channel. Please play with a valid user in this channel.");
 		}
-        
-        SlackChannel currentChannel = session.findChannelById(slackInput.getChannel_id());
-        
-        if (currentChannel == null) {
-        	return new EphemeralResponse("Could not find the channel with the provided channel_id");
-        }
 		
-        //Get all the channel users
-        Collection<SlackUser> usersInChannel = currentChannel.getMembers();
-        
-        //There has to be at least one user (me), so don't have to check for null or empty
-        if (!usersInChannel.contains(secondPlayer)) {
-        	return new EphemeralResponse("Couldn't find user " + secondPlayer + " in this channel. Please select a valid user to play with."); 
-        }
+		int pipeIndex = inputTokens[1].indexOf('|');
+		String secondPlayer = inputTokens[1].substring(pipeIndex + 1, inputTokens[1].length() - 1);
+		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
         
         //validated user
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);

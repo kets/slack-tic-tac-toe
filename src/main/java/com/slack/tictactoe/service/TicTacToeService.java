@@ -35,7 +35,10 @@ import javax.ws.rs.core.MultivaluedMap;
 @Path("/ttt")
 public class TicTacToeService extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
-	private CommandController commandController;
+	private CommandController playController = new PlayController();
+	private CommandController moveController = new MoveController();
+	private CommandController boardController = new BoardController();
+			
 
 	@Context
 	private ServletContext context;
@@ -103,16 +106,13 @@ public class TicTacToeService extends Application {
 		
 		switch (inputText[0]) {
 			case Constants.PLAY:
-				commandController = new PlayController();
-				slackRes = commandController.processCommand(slackParams, gameMap);
+				slackRes = playController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.MOVE:
-				commandController = new MoveController();
-				slackRes = commandController.processCommand(slackParams, gameMap);
+				slackRes = moveController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.BOARD:
-				commandController = new BoardController();
-				slackRes = commandController.processCommand(slackParams, gameMap);
+				slackRes = boardController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.HELP:
 				break;

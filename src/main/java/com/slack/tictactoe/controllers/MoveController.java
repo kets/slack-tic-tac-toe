@@ -1,5 +1,7 @@
 package com.slack.tictactoe.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 	
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
+		List<String> attachments = new ArrayList<String>();
 		if (inputTokens.length < 3) {
 			return new EphemeralResponse("Insufficient input params. Please try again");
 		}
@@ -44,13 +47,16 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 			game.makeMove(row, col);
 			if (game.getGameState().equals(GameState.PLAYER1_WINNER) || game.getGameState().equals(GameState.PLAYER2_WINNER)) {
 				logger.debug("winner is: " + game.getCurrentPlayer());
+				attachments.add("Congrats to " + game.getCurrentPlayer() + " for winning the game!");
 				//game is over, remove the game from the global gameMap
 				gameMap.remove(slackInput.getChannel_id());
-				return new ChannelResponse("Congrats to " + game.getCurrentPlayer() + " for winning the game!");
+				
+				return new ChannelResponse("```"+game.displayBoard() +"```", attachments);
 			} else if (game.getGameState().equals(GameState.TIE)){
 				//game is over/tie
+				attachments.add("Welp, it's a tie. Play again? :)");
 				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse("Welp, it's a tie. Play again? :)");
+				return new ChannelResponse("```"+game.displayBoard() +"```");
 			}
 		} catch (NumberFormatException ex) {
 			return new EphemeralResponse("Illegal command format. Use /ttt move x y to make your next move");
@@ -59,8 +65,9 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 		} catch (Exception ex) {
 			return new EphemeralResponse("Use /ttt help for usage");
 		}
+		attachments.add("It\'s @" + game.whoseTurn());
 		
-		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n\n It's @" + game.whoseTurn());
+		return new ChannelResponse("```"+game.displayBoard() +"```", attachments);
 	}
 	
 	private boolean isLegalMove(String currentUser, TicTacToe game) {

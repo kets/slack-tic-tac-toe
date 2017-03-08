@@ -96,7 +96,6 @@ public class TicTacToeService extends Application {
 			logger.error(LogMessage.getLogMsg(Messages.TTT4003E));			
 		}		
 		
-		logger.info(LogMessage.getLogMsg(Messages.TTT4000I));
 		logger.info(slackParams.toString());
 		
 		//parse the text from the command 

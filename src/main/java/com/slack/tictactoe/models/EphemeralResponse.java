@@ -1,5 +1,7 @@
 package com.slack.tictactoe.models;
 
+import java.util.List;
+
 import com.slack.tictactoe.Constants;
 
 public class EphemeralResponse extends SlackResponse {
@@ -9,6 +11,10 @@ public class EphemeralResponse extends SlackResponse {
 		super(text);
 	}
 
+	public EphemeralResponse(String text, List<String> attachments) {
+		super(text, attachments);
+	}
+	
 	@Override
 	public String getResponse_type() {
 		return this.response_type;

@@ -14,6 +14,7 @@ public class PlayController implements CommandController {
 	private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
 	
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+		logger.debug("play command invoked");
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		//TODO validate input tokens
 		if (gameMap.containsKey(slackInput.getChannel_id())) {

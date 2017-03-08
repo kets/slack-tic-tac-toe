@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.controllers.BoardController;
 import com.slack.tictactoe.controllers.CommandController;
+import com.slack.tictactoe.controllers.HelpController;
 import com.slack.tictactoe.controllers.MoveController;
 import com.slack.tictactoe.controllers.PlayController;
 import com.slack.tictactoe.i18n.Messages;
@@ -38,6 +39,7 @@ public class TicTacToeService extends Application {
 	private CommandController playController = new PlayController();
 	private CommandController moveController = new MoveController();
 	private CommandController boardController = new BoardController();
+	private CommandController helpController = new HelpController();
 			
 
 	@Context
@@ -114,6 +116,7 @@ public class TicTacToeService extends Application {
 				slackRes = boardController.processCommand(slackParams, gameMap);
 				break;
 			case Constants.HELP:
+				slackRes = helpController.processCommand(slackParams, gameMap);
 				break;
 			default:
 				slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4004E));

@@ -1,7 +1,5 @@
 package com.slack.tictactoe.models;
 
-import java.util.List;
-
 import com.slack.tictactoe.Constants;
 
 public class ChannelResponse extends SlackResponse {
@@ -9,10 +7,6 @@ public class ChannelResponse extends SlackResponse {
 
 	public ChannelResponse(String text) {
 		super(text);
-	}
-	
-	public ChannelResponse(String text, List<String> attachments) {
-		super(text, attachments);
 	}
 	
 	public String getResponse_type() {

@@ -1,12 +1,8 @@
 package com.slack.tictactoe.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.TicTacToe;
 import com.slack.tictactoe.models.ChannelResponse;
@@ -20,8 +16,8 @@ public class MoveController implements CommandController{
 private static final Logger logger = LoggerFactory.getLogger(MoveController.class);
 	
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+		logger.debug("move command invoked");
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
-		List<String> attachments = new ArrayList<String>();
 		if (inputTokens.length < 3) {
 			return new EphemeralResponse("Insufficient input params. Please try again");
 		}
@@ -47,16 +43,13 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 			game.makeMove(row, col);
 			if (game.getGameState().equals(GameState.PLAYER1_WINNER) || game.getGameState().equals(GameState.PLAYER2_WINNER)) {
 				logger.debug("winner is: " + game.getCurrentPlayer());
-				attachments.add("Congrats to " + game.getCurrentPlayer() + " for winning the game!");
-				//game is over, remove the game from the global gameMap
-				gameMap.remove(slackInput.getChannel_id());
-				
-				return new ChannelResponse("```"+game.displayBoard() +"```", attachments);
+				//game is over, remove the game from the global gameMap				
+				gameMap.remove(slackInput.getChannel_id());				
+				return new ChannelResponse("```"+game.displayBoard() +"```" + "\n\n Congrats to " + game.getCurrentPlayer() + " for winning the game!");
 			} else if (game.getGameState().equals(GameState.TIE)){
 				//game is over/tie
-				attachments.add("Welp, it's a tie. Play again? :)");
 				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse("```"+game.displayBoard() +"```");
+				return new ChannelResponse("```"+game.displayBoard() +"```" + "Welp, it's a tie. Play again? :)");
 			}
 		} catch (NumberFormatException ex) {
 			return new EphemeralResponse("Illegal command format. Use /ttt move x y to make your next move");
@@ -65,9 +58,8 @@ private static final Logger logger = LoggerFactory.getLogger(MoveController.clas
 		} catch (Exception ex) {
 			return new EphemeralResponse("Use /ttt help for usage");
 		}
-		attachments.add("It\'s @" + game.whoseTurn());
 		
-		return new ChannelResponse("```"+game.displayBoard() +"```", attachments);
+		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n\nIt's @" + game.whoseTurn() + " turn.");
 	}
 	
 	private boolean isLegalMove(String currentUser, TicTacToe game) {

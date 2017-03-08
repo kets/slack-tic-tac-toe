@@ -19,10 +19,10 @@ public class HelpController implements CommandController {
 		// Help command 
 		String helpText = 
 				"/ttt play @[username]: starts a Tic Tac Toe game with another user in the channel " +
-			    "/ttt move x y: move the game piece to a particular position on the board " +
-				"/ttt board: display the current board " +
-			    "/ttt quit: quit the current game (only game players can quit the game) " +
-				"/ttt help: help manual";
+			    "\n\n /ttt move x y: move the game piece to a particular position on the board " +
+				"\n\n /ttt board: display the current board " +
+			    "\n\n /ttt quit: quit the current game (only game players can quit the game) " +
+				"\n\n /ttt help: help manual";
 		return new ChannelResponse(helpText);
 	}
 

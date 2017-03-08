@@ -1,5 +1,6 @@
 package com.slack.tictactoe.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SlackResponse {	
@@ -13,6 +14,7 @@ public abstract class SlackResponse {
 	
 	public SlackResponse(String text, List<String> attachments) {
 		this.text =  text;
+		this.attachments = attachments;
 		
 	}
 	public String getText() {
@@ -21,5 +23,13 @@ public abstract class SlackResponse {
 	
 	public List<String> getAttachments() {
 		return this.attachments;
+	}
+	
+	public void setAttachment(String text) {
+		if (this.attachments == null) {
+			this.attachments = new ArrayList<String>();
+		}
+		
+		this.attachments.add(text);
 	}
 }

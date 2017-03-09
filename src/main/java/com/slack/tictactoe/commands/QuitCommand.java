@@ -23,9 +23,13 @@ public class QuitCommand implements Command {
 		}
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
-	
-		if(!game.getFirstPlayer().equals(slackInput.getUser_name()) ||
-				!game.getSecondPlayer().equals(slackInput.getUser_name())) {
+		logger.debug("slackPlayer: " + slackInput.getUser_name());
+		logger.debug("firstPlayer: " + game.getFirstPlayer());
+		logger.debug("secondPlayer: " + game.getSecondPlayer());
+		
+		//validate if the current user is authorized to quit the game. 
+		//only players of the current game can quit.
+		if(!game.getFirstPlayer().equals(slackInput.getUser_name())) {
 			return new EphemeralResponse("You are not allowed to quit the game!");
 		}
 		

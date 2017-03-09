@@ -2,6 +2,7 @@
 bin/
 .project
 .settings/*
-
+coverage-report/*
 /target/
 .env
+*.log

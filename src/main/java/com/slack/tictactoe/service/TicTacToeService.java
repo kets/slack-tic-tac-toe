@@ -21,6 +21,7 @@ import com.slack.tictactoe.controllers.CommandController;
 import com.slack.tictactoe.controllers.HelpController;
 import com.slack.tictactoe.controllers.MoveController;
 import com.slack.tictactoe.controllers.PlayController;
+import com.slack.tictactoe.controllers.QuitController;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.EphemeralResponse;
@@ -40,7 +41,7 @@ public class TicTacToeService extends Application {
 	private CommandController moveController = new MoveController();
 	private CommandController boardController = new BoardController();
 	private CommandController helpController = new HelpController();
-			
+	private CommandController quitController = new QuitController();			
 
 	@Context
 	private ServletContext context;
@@ -117,6 +118,9 @@ public class TicTacToeService extends Application {
 				break;
 			case Constants.HELP:
 				slackRes = helpController.processCommand(slackParams, gameMap);
+				break;
+			case Constants.QUIT:
+				slackRes = quitController.processCommand(slackParams, gameMap);
 				break;
 			default:
 				slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4004E));

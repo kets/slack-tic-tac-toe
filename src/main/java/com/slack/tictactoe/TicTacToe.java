@@ -184,6 +184,14 @@ public class TicTacToe {
 		return gameState;
 	}
 	
+	public String getFirstPlayer() {
+		return this.firstPlayer;
+	}
+	
+	public String getSecondPlayer() {
+		return this.secondPlayer;
+	}
+	
 	public String getCurrentPlayer() {
 		return this.currentPlayer;
 	}

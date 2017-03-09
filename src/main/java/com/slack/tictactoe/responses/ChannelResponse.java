@@ -1,4 +1,4 @@
-package com.slack.tictactoe.models;
+package com.slack.tictactoe.responses;
 
 import com.slack.tictactoe.Constants;
 

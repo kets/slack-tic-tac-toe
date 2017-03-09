@@ -1,8 +1,9 @@
-package com.slack.tictactoe;
+package com.slack.tictactoe.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.models.GameState;
 
 public class TicTacToe {

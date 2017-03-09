@@ -1,4 +1,4 @@
-package com.slack.tictactoe;
+package com.slack.tictactoe.listeners;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -9,6 +9,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 

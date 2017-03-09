@@ -1,4 +1,4 @@
-package com.slack.tictactoe.models;
+package com.slack.tictactoe.responses;
 
 public abstract class SlackResponse {
 	private String text;

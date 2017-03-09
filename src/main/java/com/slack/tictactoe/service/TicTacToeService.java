@@ -16,18 +16,18 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
-import com.slack.tictactoe.controllers.BoardController;
-import com.slack.tictactoe.controllers.CommandController;
-import com.slack.tictactoe.controllers.HelpController;
-import com.slack.tictactoe.controllers.MoveController;
-import com.slack.tictactoe.controllers.PlayController;
-import com.slack.tictactoe.controllers.QuitController;
+import com.slack.tictactoe.commands.BoardCommand;
+import com.slack.tictactoe.commands.Command;
+import com.slack.tictactoe.commands.HelpCommand;
+import com.slack.tictactoe.commands.MoveCommand;
+import com.slack.tictactoe.commands.PlayCommand;
+import com.slack.tictactoe.commands.QuitCommand;
+import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
-import com.slack.tictactoe.models.EphemeralResponse;
 import com.slack.tictactoe.models.SlackInput;
-import com.slack.tictactoe.models.SlackResponse;
-import com.slack.tictactoe.TicTacToe;
+import com.slack.tictactoe.responses.EphemeralResponse;
+import com.slack.tictactoe.responses.SlackResponse;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
@@ -37,11 +37,11 @@ import javax.ws.rs.core.MultivaluedMap;
 @Path("/ttt")
 public class TicTacToeService extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);
-	private CommandController playController = new PlayController();
-	private CommandController moveController = new MoveController();
-	private CommandController boardController = new BoardController();
-	private CommandController helpController = new HelpController();
-	private CommandController quitController = new QuitController();			
+	private Command playController = new PlayCommand();
+	private Command moveController = new MoveCommand();
+	private Command boardController = new BoardCommand();
+	private Command helpController = new HelpCommand();
+	private Command quitController = new QuitCommand();			
 
 	@Context
 	private ServletContext context;

@@ -1,12 +1,12 @@
-package com.slack.tictactoe.controllers;
+package com.slack.tictactoe.commands;
 
 import java.util.Map;
 
-import com.slack.tictactoe.TicTacToe;
+import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.models.SlackInput;
-import com.slack.tictactoe.models.SlackResponse;
+import com.slack.tictactoe.responses.SlackResponse;
 
-public interface CommandController {
+public interface Command {
 	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap);
 
 }

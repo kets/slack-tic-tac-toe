@@ -1,17 +1,17 @@
-package com.slack.tictactoe.controllers;
+package com.slack.tictactoe.commands;
 
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.slack.tictactoe.Constants;
-import com.slack.tictactoe.TicTacToe;
-import com.slack.tictactoe.models.ChannelResponse;
-import com.slack.tictactoe.models.EphemeralResponse;
+import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.models.SlackInput;
-import com.slack.tictactoe.models.SlackResponse;
+import com.slack.tictactoe.responses.ChannelResponse;
+import com.slack.tictactoe.responses.EphemeralResponse;
+import com.slack.tictactoe.responses.SlackResponse;
 
-public class PlayController implements CommandController {
-	private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
+public class PlayCommand implements Command {
+	private static final Logger logger = LoggerFactory.getLogger(PlayCommand.class);
 	
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		logger.debug("play command invoked");

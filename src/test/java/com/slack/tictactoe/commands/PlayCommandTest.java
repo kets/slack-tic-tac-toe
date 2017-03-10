@@ -24,7 +24,7 @@ public class PlayCommandTest {
 	private SlackInput testSlackInput;
 	private final String testChannelID = "C12345";
 	private final String testUserId = "@U12345";
-	private PlayCommand pc;
+	private Command pc;
 	private SlackResponse testResponse;
 	
 	/**

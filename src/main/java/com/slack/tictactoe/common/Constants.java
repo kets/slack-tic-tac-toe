@@ -1,4 +1,4 @@
-package com.slack.tictactoe;
+package com.slack.tictactoe.common;
 
 public class Constants {
 	public static final String TEXT_DELIMITER = " ";

@@ -3,7 +3,8 @@ package com.slack.tictactoe.utils;
 import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.slack.tictactoe.Constants;
+
+import com.slack.tictactoe.common.Constants;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 

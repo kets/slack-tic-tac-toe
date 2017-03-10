@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.common.Constants;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.responses.EphemeralResponse;

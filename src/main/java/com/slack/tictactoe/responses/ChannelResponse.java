@@ -1,6 +1,6 @@
 package com.slack.tictactoe.responses;
 
-import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.common.Constants;
 
 /**
  * ChannelResponse handles responses visible to all users in a channel

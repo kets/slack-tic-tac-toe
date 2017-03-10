@@ -1,6 +1,6 @@
 package com.slack.tictactoe.responses;
 
-import com.slack.tictactoe.Constants;
+import com.slack.tictactoe.common.Constants;
 
 /**
  * EphemeralResponses handles responses that only the issuing user can see

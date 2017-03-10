@@ -3,7 +3,8 @@ package com.slack.tictactoe.commands;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.slack.tictactoe.Constants;
+
+import com.slack.tictactoe.common.Constants;
 import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
@@ -30,6 +31,7 @@ public class MoveCommand implements Command {
 	@Override
 	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "move"));
+		
 		final String[] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 3) {
 			logger.error(LogMessage.getLogMsg(Messages.TTT5001E));

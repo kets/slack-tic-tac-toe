@@ -44,7 +44,7 @@ public class PlayCommand implements Command {
 		
 		int pipeIndex = inputTokens[1].indexOf('|');
 		String firstPlayer = Constants.AT + slackInput.getUser_id();
-		String secondPlayer = inputTokens[1].substring(1, pipeIndex - 1);
+		String secondPlayer = inputTokens[1].substring(1, pipeIndex);
 		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
         
         //validated user

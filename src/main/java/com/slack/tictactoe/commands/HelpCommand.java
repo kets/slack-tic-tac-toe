@@ -13,13 +13,15 @@ import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.SlackResponse;
 
 /**
- * 
- * 
+ * Handles the processing when the 'help' command is invoked in Slack
  *
  */
 public class HelpCommand implements Command {
 	private static final Logger logger = LoggerFactory.getLogger(HelpCommand.class);
 	
+	/**
+	 * Displays the usage of all the supported commands
+	 */
 	@Override
 	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {		
 		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "help"));

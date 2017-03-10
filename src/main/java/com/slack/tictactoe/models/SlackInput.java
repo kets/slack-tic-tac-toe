@@ -1,5 +1,9 @@
 package com.slack.tictactoe.models;
 
+/**
+ * Input POJO for the Slack Params provided in the POST request
+ *
+ */
 public class SlackInput {
 	private String token;
 	private String team_id;
@@ -119,21 +123,34 @@ public class SlackInput {
 	public void setResponse_url(String response_url) {		
 		this.response_url = response_url;
 	}
+	/**
+	 * returns all the values in string format
+	 */
 	@Override
 	public String toString() {
-		return "user_name=[" + this.getUser_name() + 
-				"] user_id=[" + this.getUser_id() + 
-				"] text=[" + this.getText() + 
-				"] response_url=["+ this.getResponse_url() +
-				"] command=[" + this.getCommand() +
-				"] channel name=[" + this.getChannel_name() +
-				"] channel_id=[" + this.getChannel_id() +
-				"] team_id=[" + this.getTeam_id() +
-				"] team_domain=[" + this.getTeam_domain() + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append("user_name=[" + this.getUser_name());
+		sb.append("] user_id=[" + this.getUser_id());
+		sb.append("] text=[" + this.getText());
+		sb.append("] response_url=["+ this.getResponse_url());
+		sb.append("] command=[" + this.getCommand());
+		sb.append("] channel name=[" + this.getChannel_name());
+		sb.append("] channel_id=[" + this.getChannel_id());
+		sb.append("] team_id=[" + this.getTeam_id());
+		sb.append("] team_domain=[" + this.getTeam_domain() + "]");		
+		return sb.toString();
 	}
+	/**
+	 * @return team_domain
+	 */
 	public String getTeam_domain() {
 		return team_domain;
 	}
+	
+	/**
+	 * set team_domain
+	 * @param team_domain
+	 */
 	public void setTeam_domain(String team_domain) {
 		this.team_domain = team_domain;
 	}

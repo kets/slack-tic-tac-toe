@@ -14,8 +14,16 @@ import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.SlackResponse;
 import com.slack.tictactoe.utils.TTTUtils;
 
+/**
+ * Handles the processing when the 'board' command is invoked in Slack
+ */
 public class BoardCommand implements Command  {
 	private static final Logger logger = LoggerFactory.getLogger(BoardCommand.class);
+	
+	/**
+	 * Returns the current state of the board and which player will make the next move
+	 */
+	@Override
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "board"));
 		
@@ -23,10 +31,12 @@ public class BoardCommand implements Command  {
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		
 		if (inputTokens.length < 1) {
+			logger.error(LogMessage.getLogMsg(Messages.TTT5001E));
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5001E));
 		}
 		
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
+			logger.error(LogMessage.getLogMsg(Messages.TTT5000I));
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
 		}
 		

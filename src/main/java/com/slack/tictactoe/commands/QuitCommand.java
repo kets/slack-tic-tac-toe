@@ -53,5 +53,4 @@ public class QuitCommand implements Command {
 		return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5012I, 
 				TTTUtils.formatUserId(slackInput.getUser_id())));
 	}
-
 }

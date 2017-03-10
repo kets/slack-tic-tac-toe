@@ -12,6 +12,10 @@ import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 
+/**
+ * Initializes and destroys the Context, as well as the gameMap
+ *
+ */
 @WebListener
 public class TicTacToeContextListener implements ServletContextListener {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeContextListener.class);

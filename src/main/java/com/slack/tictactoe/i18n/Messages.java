@@ -9,6 +9,10 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Enum to keep track of all the message codes added in messages.properties
+ *
+ */
 public enum Messages {
 	// Service messages
 	TTT4000I, TTT4001E, TTT4002E, TTT4003E, TTT4004E, 
@@ -30,7 +34,12 @@ public enum Messages {
 
 	private Messages() {
 	}
-
+	
+	/**
+	 * Retrieves the bundle returns the appropriate string according to the locale 
+	 * @param locale
+	 * @return
+	 */
 	public String toString(Locale locale) {
 		ResourceBundle bundle = null;
 
@@ -60,15 +69,30 @@ public enum Messages {
 			return '!' + this.name() + '!';
 		}
 	}
-
+	
+	/**
+	 * get the default locale
+	 * @return String
+	 */
 	public String toString() {
 		return toString(Locale.getDefault());
 	}
 
+	/**
+	 * Get the message string based on the provided code
+	 * @param msg
+	 * @param locale
+	 * @return String
+	 */
 	public static String getString(Messages msg, Locale locale) {
 		return msg.toString(locale);
 	}
-
+	
+	/**
+	 * return the message.
+	 * @param msg
+	 * @return String
+	 */
 	public static String getString(Messages msg) {
 		return msg.toString();
 	}

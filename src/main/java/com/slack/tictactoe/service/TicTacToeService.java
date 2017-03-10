@@ -32,6 +32,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+/**
+ * Service class to handle all the incoming HTTP request from Slack
+ */
 @Path("/ttt")
 public class TicTacToeService extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TicTacToeService.class);

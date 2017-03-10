@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.slack.tictactoe.game.TicTacToe;
+import com.slack.tictactoe.i18n.Messages;
+import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.GameState;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
@@ -19,7 +21,7 @@ public class QuitCommand implements Command {
 	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		logger.debug("quit command invoked");
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
-			return new ChannelResponse("No games being played. Please start a game with another user in the channel.");
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
 		}
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
@@ -29,7 +31,8 @@ public class QuitCommand implements Command {
 		
 		//validate if the current user is authorized to quit the game. 
 		//only players of the current game can quit.
-		if(!game.getFirstPlayer().equals(slackInput.getUser_name())) {
+		if(!game.getFirstPlayer().equals(slackInput.getUser_name())
+				&& !game.getSecondPlayer().equals(slackInput.getUser_name())) {
 			return new EphemeralResponse("You are not allowed to quit the game!");
 		}
 		

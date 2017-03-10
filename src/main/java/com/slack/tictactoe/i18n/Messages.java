@@ -14,7 +14,8 @@ public enum Messages {
 	TTT4001E,
 	TTT4002E,
 	TTT4003E,
-	TTT4004E
+	TTT4004E,
+	TTT5000I
 	;
 	
 	private static final String BUNDLE_NAME = "com.slack.tictactoe.i18n.messages"; 

@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.game.TicTacToe;
+import com.slack.tictactoe.i18n.Messages;
+import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.EphemeralResponse;
@@ -25,7 +27,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		//check if this is a valid game
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
 			//TODO add message
-			return new ChannelResponse("No games being played. Please start a game with another user in the channel.");
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
 		}
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
@@ -59,7 +61,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 			return new EphemeralResponse("Use /ttt help for usage");
 		}
 		
-		return new ChannelResponse("```"+game.displayBoard() +"```" + "\n\nIt's @" + game.whoseTurn() + " turn.");
+		return new ChannelResponse(Constants.BACK_TICKS +game.displayBoard() + Constants.BACK_TICKS + "\n\nIt's @" + game.whoseTurn() + " turn.");
 	}
 	
 	private boolean isLegalMove(String currentUser, TicTacToe game) {

@@ -103,7 +103,7 @@ public class TicTacToe {
 		} else if(this.currentPiece == Constants.O) {
 			sb.append(this.secondPlayer);
 		}
-		return sb.append("\'s turn.").toString();
+		return sb.append(" \'s turn.").toString();
 	}
 	
 	private boolean checkForWin(int row, int col, char mark) {

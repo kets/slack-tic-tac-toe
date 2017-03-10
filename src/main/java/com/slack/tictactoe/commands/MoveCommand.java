@@ -33,8 +33,15 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
+		
+		//check whether this user is participating in this game
+		if (!slackInput.getUser_id().equals(game.getFirstPlayer()) && 
+				!slackInput.getUser_id().equals(game.getSecondPlayer())) {
+			return new EphemeralResponse("You're not playing in this game! Please wait for game to finish and start a new one!");
+		}
+		//yes, user is playing in this game, then
 		//check if it is the current player's turn
-		if(!isLegalMove(slackInput.getUser_id(), game)){
+		if (!slackInput.getUser_id().equals(game.getCurrentPlayer()))  {
 			return new EphemeralResponse("Please wait for your turn!");
 		}		
 		
@@ -65,14 +72,5 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + 
 				"\n\nIt's " + TTTUtils.formatUserId(game.whoseTurn()));
 	}
-	
-	private boolean isLegalMove(String currentUser, TicTacToe game) {
-		logger.debug("currentUser: "+ currentUser + " gamePlayer: "+ game.getCurrentPlayer());
-		if(!currentUser.equals(game.getCurrentPlayer())) {
-			return false;			
-		}
-		return true;
-	}
-
 
 }

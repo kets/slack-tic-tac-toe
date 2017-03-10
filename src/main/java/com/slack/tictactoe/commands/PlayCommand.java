@@ -48,10 +48,10 @@ public class PlayCommand implements Command {
 		
 		//it's possible to start a game with yourself, so need to put in a check to validate that
 		if (firstPlayer.equals(secondPlayer)) {
-			logger.error("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
+			logger.error("firstPlayer: " + firstPlayer + " is the same as secondPlayer " + secondPlayer);
 			return new EphemeralResponse("Can't start a game with yourself! Pick another user :)");
 		}
-		logger.info("firstPlayer: " + firstPlayer + " secondPlayer: " + secondPlayer);
+		logger.debug("firstPlayer: " + firstPlayer + " secondPlayer: " + secondPlayer);
         
         //validated users
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);

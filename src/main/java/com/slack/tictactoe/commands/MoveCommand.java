@@ -14,7 +14,7 @@ import com.slack.tictactoe.responses.SlackResponse;
 import com.slack.tictactoe.utils.TTTUtils;
 import com.slack.tictactoe.models.GameState;
 
-public class MoveCommand implements Command{
+public class MoveCommand implements Command {
 	
 private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 	
@@ -37,16 +37,19 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		//check whether this user is participating in this game
 		if (!slackInput.getUser_id().equals(game.getFirstPlayer()) && 
 				!slackInput.getUser_id().equals(game.getSecondPlayer())) {
+			logger.error(slackInput.getUser_name() + " is not playing this game.");
 			return new EphemeralResponse("You're not playing in this game! Please wait for game to finish and start a new one!");
 		}
+		
 		//yes, user is playing in this game, then
 		//check if it is the current player's turn
 		if (!slackInput.getUser_id().equals(game.getCurrentPlayer()))  {
+			logger.error(slackInput.getUser_name() + " is making an unauthorized move.");
 			return new EphemeralResponse("Please wait for your turn!");
 		}		
 		
 		try {
-			// validate coordinates
+			// move coordinates
 			int row = Integer.parseInt(inputTokens[1]);
 			int col = Integer.parseInt(inputTokens[2]);
 			 

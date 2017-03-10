@@ -1,7 +1,7 @@
 package com.slack.tictactoe.listeners;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -28,7 +28,7 @@ public class TicTacToeContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		//Add gameMap to the servlet context so it's available between HTTP requests
-		Map<String, TicTacToe> gameMap = new HashMap<String, TicTacToe>();
+		Map<String, TicTacToe> gameMap = new ConcurrentHashMap<String, TicTacToe>();
 		ServletContext context = sce.getServletContext();
 		context.setAttribute("gameMap", gameMap);
 		logger.info(LogMessage.getLogMsg(Messages.TTT4000I));

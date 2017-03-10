@@ -98,7 +98,7 @@ public class TicTacToe {
 	
 	public String whoseTurn() {
 		StringBuilder sb = new StringBuilder();
-		if(this.currentPiece == Constants.X) {
+		if (this.currentPiece == Constants.X) {
 			sb.append(this.firstPlayer);
 		} else if(this.currentPiece == Constants.O) {
 			sb.append(this.secondPlayer);

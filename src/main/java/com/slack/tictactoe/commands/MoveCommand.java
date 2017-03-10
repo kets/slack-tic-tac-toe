@@ -73,7 +73,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		}
 		
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + 
-				"\n\nIt's " + TTTUtils.formatUserId(game.whoseTurn() + " \'s turn."));
+				"\n\nIt's " + TTTUtils.formatUserId(game.whoseTurn()) + " \'s turn.");
 	}
 
 }

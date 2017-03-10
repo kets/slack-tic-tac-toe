@@ -15,11 +15,13 @@ public class TTTUtils {
 	private static final Logger logger = LoggerFactory.getLogger(TTTUtils.class);
 	
 	public static String encodeUserId(String userId) {
-		String lessThan = "<";
-		String greaterThan = ">";
+		String lessThan = null;
+		String greaterThan = null;
 		String encodedString = null;
 		try {
-			encodedString = URLEncoder.encode(lessThan + userId + greaterThan, Constants.UTF8);
+			lessThan = URLEncoder.encode("<", Constants.UTF8);
+			greaterThan = URLEncoder.encode(">", Constants.UTF8);
+			encodedString = lessThan + userId + greaterThan;
 		} catch (UnsupportedEncodingException ex) {
 			logger.error("Unable to encode userId \n" + ex.getMessage());	
 		}		

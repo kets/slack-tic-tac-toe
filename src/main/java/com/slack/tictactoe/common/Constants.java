@@ -1,5 +1,9 @@
 package com.slack.tictactoe.common;
 
+/**
+ * Stores constants required throughout the application
+ *
+ */
 public class Constants {
 	public static final String TEXT_DELIMITER = " ";
 	public static final String PLAY = "play";

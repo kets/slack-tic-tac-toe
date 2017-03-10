@@ -11,6 +11,7 @@ import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.EphemeralResponse;
 import com.slack.tictactoe.responses.SlackResponse;
+import com.slack.tictactoe.utils.TTTUtils;
 
 public class PlayCommand implements Command {
 	private static final Logger logger = LoggerFactory.getLogger(PlayCommand.class);
@@ -29,7 +30,7 @@ public class PlayCommand implements Command {
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5002E));
 		}
 		
-		String firstPlayer = slackInput.getUser_name();
+		
 		
 		// validate second user by checking if the user_id is passed in the text field
         //The toggle to get the user_id and channel_is has been turned on
@@ -42,14 +43,15 @@ public class PlayCommand implements Command {
 		}
 		
 		int pipeIndex = inputTokens[1].indexOf('|');
-		String secondPlayer = inputTokens[1].substring(pipeIndex + 1, inputTokens[1].length() - 1);
+		String firstPlayer = Constants.AT + slackInput.getUser_id();
+		String secondPlayer = inputTokens[1].substring(1, pipeIndex - 1);
 		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
         
         //validated user
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);
 		gameMap.put(slackInput.getChannel_id(), game);
 	
-		return new ChannelResponse("Game started between " + Constants.AT + firstPlayer + " and " + Constants.AT + secondPlayer);
+		return new ChannelResponse("Game started between " + TTTUtils.encodeUserId(firstPlayer) + " and " + TTTUtils.encodeUserId(secondPlayer));
 	}
 
 }

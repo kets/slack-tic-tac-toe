@@ -47,7 +47,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 				logger.debug("winner is: " + game.getCurrentPlayer());
 				//game is over, remove the game from the global gameMap				
 				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Congrats to " + game.getCurrentPlayer() + " for winning the game!");
+				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Congrats to " + Constants.AT + game.getCurrentPlayer() + " for winning the game!");
 			} else if (game.getGameState().equals(GameState.TIE)){
 				//game is over/tie
 				gameMap.remove(slackInput.getChannel_id());				

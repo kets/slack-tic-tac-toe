@@ -1,9 +1,7 @@
 package com.slack.tictactoe.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.slack.tictactoe.Constants;
 import com.slack.tictactoe.commands.BoardCommand;
@@ -28,7 +25,7 @@ import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.EphemeralResponse;
 import com.slack.tictactoe.responses.SlackResponse;
-
+import com.slack.tictactoe.utils.TTTUtils;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -97,12 +94,10 @@ public class TicTacToeService extends Application {
 		slackParams.setCommand(formParams.getFirst(Constants.COMMAND));
 		
 		//Decode response_url for delayed responses
-		try {
-			String responseUrl = java.net.URLDecoder.decode(formParams.getFirst(Constants.RESPONSE_URL), Constants.UTF8);
+		String responseUrl = TTTUtils.decodeString(formParams.getFirst(Constants.RESPONSE_URL));
+		if (responseUrl != null){
 			slackParams.setResponse_url(responseUrl);
-		} catch (UnsupportedEncodingException ex) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT4003E));			
-		}		
+		}
 		
 		logger.info(slackParams.toString());
 		

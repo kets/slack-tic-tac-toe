@@ -14,66 +14,83 @@ import com.slack.tictactoe.responses.SlackResponse;
 import com.slack.tictactoe.utils.TTTUtils;
 import com.slack.tictactoe.models.GameState;
 
+/**
+ * Handles the processing when the 'play' command is invoked in Slack
+ */
 public class MoveCommand implements Command {
-	
-private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
-	
-	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
-		logger.debug("move command invoked");
-		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
+
+	private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
+
+	/**
+	 * Implementation of the required processCommand() function 
+	 * Validates the input params and ensures that the players are making authorized moves
+	 * Checks if the current move is a winning move or a tie
+	 * Displays the current state of the game board and whose turn is next
+	 */
+	@Override
+	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
+		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "move"));
+		final String[] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 3) {
+			logger.error(LogMessage.getLogMsg(Messages.TTT5001E));
 			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5001E));
 		}
 		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
-		//check if this is a valid game
+
+		// check if this is a valid game
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
-			//TODO add message
+			logger.error(LogMessage.getLogMsg(Messages.TTT5000I));
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
 		}
-		
+
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
-		
-		
-		//check whether this user is participating in this game
-		if (!slackInput.getUser_id().equals(game.getFirstPlayer()) && 
-				!slackInput.getUser_id().equals(game.getSecondPlayer())) {
+
+		// check whether this user is participating in this game
+		if (!slackInput.getUser_id().equals(game.getFirstPlayer())
+				&& !slackInput.getUser_id().equals(game.getSecondPlayer())) {
 			logger.error(slackInput.getUser_name() + " is not playing this game.");
-			return new EphemeralResponse("You're not playing in this game! Please wait for game to finish and start a new one!");
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5004E));
 		}
-		
-		//yes, user is playing in this game, then
-		//check if it is the current player's turn
-		if (!slackInput.getUser_id().equals(game.getCurrentPlayer()))  {
+
+		// yes, user is playing in this game, then
+		// check if it is the current player's turn
+		if (!slackInput.getUser_id().equals(game.getCurrentPlayer())) {
 			logger.error(slackInput.getUser_name() + " is making an unauthorized move.");
-			return new EphemeralResponse("Please wait for your turn!");
-		}		
-		
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5005E));
+		}
+
 		try {
 			// move coordinates
 			int row = Integer.parseInt(inputTokens[1]);
 			int col = Integer.parseInt(inputTokens[2]);
-			 
+
 			game.makeMove(row, col);
-			if (game.getGameState().equals(GameState.PLAYER1_WINNER) || game.getGameState().equals(GameState.PLAYER2_WINNER)) {
+			if (game.getGameState().equals(GameState.PLAYER1_WINNER)
+					|| game.getGameState().equals(GameState.PLAYER2_WINNER)) {
 				logger.debug("winner is: " + game.getCurrentPlayer());
-				//game is over, remove the game from the global gameMap				
-				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Congrats to " + TTTUtils.formatUserId(game.getCurrentPlayer()) + " for winning the game!");
-			} else if (game.getGameState().equals(GameState.TIE)){
-				//game is over/tie
-				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Welp, it's a tie. Play again? :)");
+				// game is over, remove the game from the global gameMap
+				gameMap.remove(slackInput.getChannel_id());
+				return new ChannelResponse(
+						Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n "
+						+ LogMessage.getLogMsg(Messages.TTT5010I, TTTUtils.formatUserId(game.getCurrentPlayer())));
+				
+			} else if (game.getGameState().equals(GameState.TIE)) {
+				// game is over/tie
+				logger.debug("game ended in a tie. removing from gameMap");
+				gameMap.remove(slackInput.getChannel_id());
+				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS
+						+ "\n\n " + LogMessage.getLogMsg(Messages.TTT5009I));
 			}
 		} catch (NumberFormatException ex) {
-			return new EphemeralResponse("Illegal command format. Use /ttt move x y to make your next move");
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5006E));
 		} catch (IllegalArgumentException ex) {
 			return new EphemeralResponse(ex.getMessage());
 		} catch (Exception ex) {
-			return new EphemeralResponse("Use /ttt help for usage");
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5007E));
 		}
-		
-		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + 
-				"\n\nIt's " + TTTUtils.formatUserId(game.whoseTurn()) + " \'s turn.");
+
+		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n"
+				+ LogMessage.getLogMsg(Messages.TTT5010I, TTTUtils.formatUserId(game.getCurrentPlayer())));
 	}
 
 }

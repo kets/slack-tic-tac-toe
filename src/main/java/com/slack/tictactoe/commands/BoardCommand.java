@@ -17,9 +17,11 @@ import com.slack.tictactoe.utils.TTTUtils;
 public class BoardCommand implements Command  {
 	private static final Logger logger = LoggerFactory.getLogger(BoardCommand.class);
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
-		logger.debug("board command invoked");
-		//
+		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "board"));
+		
+		//validate input tokens
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
+		
 		if (inputTokens.length < 1) {
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5001E));
 		}
@@ -27,11 +29,12 @@ public class BoardCommand implements Command  {
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
 		}
+		
 		logger.debug("inputTokens: " + inputTokens[0]);
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 	
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS +
-				 "\n\n It's "+ TTTUtils.formatUserId(game.whoseTurn()));
+				 "\n\n " + LogMessage.getLogMsg(Messages.TTT5010I, TTTUtils.formatUserId(game.getCurrentPlayer())));
 	}
 
 }

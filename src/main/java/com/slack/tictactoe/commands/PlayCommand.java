@@ -13,11 +13,19 @@ import com.slack.tictactoe.responses.EphemeralResponse;
 import com.slack.tictactoe.responses.SlackResponse;
 import com.slack.tictactoe.utils.TTTUtils;
 
+/**
+ * Handles the processing when the 'play' command is invoked in Slack
+ */
 public class PlayCommand implements Command {
 	private static final Logger logger = LoggerFactory.getLogger(PlayCommand.class);
 	
+	/**
+	 * Implementation of the required processCommand() function
+	 * Validates the input params, the users, and creates a new game at the end
+	 */
+	@Override
 	public SlackResponse processCommand (SlackInput slackInput, Map<String, TicTacToe> gameMap) {
-		logger.debug("play command invoked");
+		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "play"));
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		
 		//validate input tokens
@@ -49,7 +57,7 @@ public class PlayCommand implements Command {
 		//it's possible to start a game with yourself, so need to put in a check to validate that
 		if (firstPlayer.equals(secondPlayer)) {
 			logger.error("firstPlayer: " + firstPlayer + " is the same as secondPlayer " + secondPlayer);
-			return new EphemeralResponse("Can't start a game with yourself! Pick another user :)");
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5008E));
 		}
 		logger.debug("firstPlayer: " + firstPlayer + " secondPlayer: " + secondPlayer);
         
@@ -57,8 +65,8 @@ public class PlayCommand implements Command {
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);
 		gameMap.put(slackInput.getChannel_id(), game);
 	
-		return new ChannelResponse("Game started between " + TTTUtils.formatUserId(firstPlayer) +
-				" and " + TTTUtils.formatUserId(secondPlayer));
+		return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5013I, TTTUtils.formatUserId(firstPlayer),
+				TTTUtils.formatUserId(secondPlayer)));
 	}
 
 }

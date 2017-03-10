@@ -2,14 +2,12 @@ package com.slack.tictactoe.listeners;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.slack.tictactoe.game.TicTacToe;
 import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
@@ -23,6 +21,7 @@ public class TicTacToeContextListener implements ServletContextListener {
 		// remove the gameMap from ServletContext
 		ServletContext context = sce.getServletContext();
 		context.removeAttribute("gameMap");
+		logger.info(LogMessage.getLogMsg(Messages.TTT4005I));
 	}
 
 	@Override

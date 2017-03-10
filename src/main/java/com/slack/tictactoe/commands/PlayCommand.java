@@ -51,7 +51,7 @@ public class PlayCommand implements Command {
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);
 		gameMap.put(slackInput.getChannel_id(), game);
 	
-		return new ChannelResponse("Game started between " + TTTUtils.encodeUserId(firstPlayer) + " and " + TTTUtils.encodeUserId(secondPlayer));
+		return new ChannelResponse("Game started between " + firstPlayer + " and " + secondPlayer);
 	}
 
 }

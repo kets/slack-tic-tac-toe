@@ -44,7 +44,7 @@ public class BoardCommand implements Command  {
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 	
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS +
-				 "\n\n " + LogMessage.getLogMsg(Messages.TTT5010I, TTTUtils.formatUserId(game.getCurrentPlayer())));
+				 "\n\n " + LogMessage.getLogMsg(Messages.TTT5011I, TTTUtils.formatUserId(game.getCurrentPlayer())));
 	}
 
 }

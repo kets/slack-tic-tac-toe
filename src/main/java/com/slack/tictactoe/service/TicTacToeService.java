@@ -2,6 +2,8 @@ package com.slack.tictactoe.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -104,7 +106,7 @@ public class TicTacToeService extends Application {
 		//parse the text from the command 
 		String [] inputText = slackParams.getText().split(Constants.TEXT_DELIMITER);
 		@SuppressWarnings("unchecked")
-		Map<String, TicTacToe> gameMap = (HashMap<String, TicTacToe>) context.getAttribute("gameMap");
+		Map<String, TicTacToe> gameMap = (ConcurrentHashMap<String, TicTacToe>) context.getAttribute("gameMap");
 		
 		//invoke the command classes based on the command
 		switch (inputText[0]) {

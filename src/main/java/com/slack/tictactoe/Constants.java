@@ -27,5 +27,6 @@ public class Constants {
 	public static final String ROW_SEPARATOR = "\n|---+---+---|\n";
 	public static final String QUIT = "quit";
 	public static final String BACK_TICKS= "```";
+	public static final String AT = "@";
 	
 }

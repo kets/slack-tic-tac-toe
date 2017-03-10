@@ -54,7 +54,7 @@ public class TicTacToeService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	@GET
 	public Response helloWorld() {
-		return Response.status(Response.Status.OK).entity("hello world!").build();
+		return Response.status(Response.Status.OK).entity("Get ready to play Tic Tac Toe!").build();
 	}
 	
 	/**
@@ -68,8 +68,11 @@ public class TicTacToeService extends Application {
 		//init the SLackInput POJO with the input params
 		logger.debug("size: " + formParams.size());
 		logger.debug("params: " + formParams.entrySet().toString());
+		
 		final SlackInput slackParams = new SlackInput();
 		SlackResponse slackRes = null;
+		
+		//validate token from Slack
 		if (!formParams.containsKey(Constants.TOKEN)){
 			slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4001E).toString());
 			logger.error(slackRes.getText());
@@ -81,7 +84,9 @@ public class TicTacToeService extends Application {
 			slackRes = new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT4002E).toString());
 			logger.error(slackRes.getText());
 			return Response.status(Response.Status.OK).entity(new Gson().toJson(slackRes)).build();
-		}		
+		}	
+		
+		// Initialize SlackInput POJO with input params
 		slackParams.setChannel_id(formParams.getFirst(Constants.CHANNEL_ID));
 		slackParams.setChannel_name(formParams.getFirst(Constants.CHANNEL_NAME));
 		slackParams.setUser_id(formParams.getFirst(Constants.USER_ID));
@@ -106,6 +111,7 @@ public class TicTacToeService extends Application {
 		@SuppressWarnings("unchecked")
 		Map<String, TicTacToe> gameMap = (HashMap<String, TicTacToe>) context.getAttribute("gameMap");
 		
+		//invoke the command classes based on the command
 		switch (inputText[0]) {
 			case Constants.PLAY:
 				slackRes = playController.processCommand(slackParams, gameMap);

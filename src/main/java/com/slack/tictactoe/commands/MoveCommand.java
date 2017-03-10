@@ -21,7 +21,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		logger.debug("move command invoked");
 		final String [] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
 		if (inputTokens.length < 3) {
-			return new EphemeralResponse("Insufficient input params. Please try again");
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5001E));
 		}
 		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
 		//check if this is a valid game
@@ -61,7 +61,8 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 			return new EphemeralResponse("Use /ttt help for usage");
 		}
 		
-		return new ChannelResponse(Constants.BACK_TICKS +game.displayBoard() + Constants.BACK_TICKS + "\n\nIt's @" + game.whoseTurn() + " turn.");
+		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + 
+				"\n\nIt's " + Constants.AT + game.whoseTurn());
 	}
 	
 	private boolean isLegalMove(String currentUser, TicTacToe game) {

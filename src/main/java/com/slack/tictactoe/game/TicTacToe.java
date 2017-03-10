@@ -44,7 +44,7 @@ public class TicTacToe {
 		movesMade++;
 		
 		//check if current player is winner
-		if(checkForWin(this.currentPiece)){
+		if(checkForWin(row, col, this.currentPiece)){
 			if (this.currentPiece == Constants.X) {
 				this.setGameState(GameState.PLAYER1_WINNER);
 			} else {
@@ -106,37 +106,70 @@ public class TicTacToe {
 		return sb.append("\'s turn.").toString();
 	}
 	
-	private boolean checkForWin(char mark) {
-		return checkRows(mark) || checkCols(mark) || checkDiagonals(mark);
-	}
-	
-	private boolean checkRows(char mark) {
-		for (int i = 0; i < board.length; i++) {
-			if(checkRowCol(board[i][0], board[i][1], board[i][2], mark)) {
-				return true;
-			}
-		}		
-		return false;		
-	}
-	
-	private boolean checkCols(char mark) {
-		for (int j = 0; j < board.length; j++) {
-			if(checkRowCol(board[0][j], board[1][j], board[2][j], mark)) {
-				return true;
-			}
-		}		
+	private boolean checkForWin(int row, int col, char mark) {
+		if (checkRows(row, col, mark) && checkCols(row, col, mark)) {
+			return true;
+		}	
+		
+		if (row == col) {
+			//on a diagonal, so check for diagonal
+			return checkDiagonal(row, col, mark);
+		}
+		if (row + col == board.length - 1) {
+			//on an anti-diagonal  
+			return checkReverseDiagonal(row, col, mark);
+		}
 		return false;
 	}
 	
-	private boolean checkDiagonals(char mark) {
-		return ((checkRowCol(board[0][0], board[1][1], board[2][2], mark)) 
-				|| (checkRowCol(board[0][2], board[1][1], board[2][0], mark)));
-		
+	private boolean checkRows(int row, int col, char mark) {
+		for (int i = 0; i < board.length; i++) {
+			//skip the check for the cell the user just marked
+			if (i != col) {
+				if((board[row][i] != mark)) {
+					return false;
+				}
+			}
+			
+		}		
+		return true;		
+	}
+	
+	private boolean checkCols(int row, int col, char mark) {
+		for (int i = 0; i < board.length; i++) {
+			//skip the check for the cell the user just marked
+			if (i != row) {
+				if((board[i][col] != mark)) {
+					return false;
+				}
+			}
+		}		
+		return true;		
+	}
+	
+	private boolean checkDiagonal(int row, int col, char mark) {
+		//in this case, row == col
+		for(int i = 0; i < board.length; i++){
+			//skip the check for the cell the user just marked
+			if (i != row) {
+				if((board[i][i] != mark)) {
+					return false;
+				}
+			}              
+        }
+		return true;		
 	}  
 	
-	private boolean checkRowCol(char c1, char c2, char c3, char mark) {
-		return (c1 != Constants.EMPTY_CELL 
-				&& c1 == mark && c2 == mark && c3 == mark);
+	private boolean checkReverseDiagonal(int row, int col, char mark) {
+		for (int i = 0; i < board.length; i++) {
+			//skip the check for the cell the user just marked
+			if (i != row) {
+				if((board[i][(board.length - 1) - i] != mark)) {
+					return false;
+				}
+			}			
+		}
+		return true;
 	}
 	
 	public String displayBoard() {
@@ -184,8 +217,8 @@ public class TicTacToe {
 	public GameState getGameState() {
 		return gameState;
 	}
-	
-	public String getFirstPlayer() {
+
+    public String getFirstPlayer() {
 		return this.firstPlayer;
 	}
 	

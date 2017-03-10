@@ -13,7 +13,8 @@ import com.slack.tictactoe.commands.*;
 	PlayCommandTest.class,
 	MoveCommandTest.class,
 	HelpCommandTest.class,
-	QuitCommandTest.class
+	QuitCommandTest.class,
+	BoardCommandTest.class
 	
 })
 public class AllTests {

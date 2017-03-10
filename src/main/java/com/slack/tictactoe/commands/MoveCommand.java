@@ -90,7 +90,7 @@ public class MoveCommand implements Command {
 		}
 
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n"
-				+ LogMessage.getLogMsg(Messages.TTT5010I, TTTUtils.formatUserId(game.getCurrentPlayer())));
+				+ LogMessage.getLogMsg(Messages.TTT5011I, TTTUtils.formatUserId(game.getCurrentPlayer())));
 	}
 
 }

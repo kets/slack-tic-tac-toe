@@ -8,24 +8,24 @@ import com.slack.tictactoe.i18n.Messages;
 import com.slack.tictactoe.logging.LogMessage;
 
 public class TTTUtils {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(TTTUtils.class);
-	
+
 	public static String formatUserId(String userId) {
 		String lessThan = "<";
 		String greaterThan = ">";
-			
-		return lessThan + Constants.AT + userId + greaterThan;		
+
+		return lessThan + Constants.AT + userId + greaterThan;
 	}
-	
+
 	public static String decodeString(String str) {
 		String decodedStr = null;
 		try {
-			decodedStr = java.net.URLDecoder.decode(str, Constants.UTF8);			
+			decodedStr = java.net.URLDecoder.decode(str, Constants.UTF8);
 		} catch (UnsupportedEncodingException ex) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT4003E));			
-		}	
-		
+			logger.error(LogMessage.getLogMsg(Messages.TTT4003E));
+		}
+
 		return decodedStr;
 	}
 

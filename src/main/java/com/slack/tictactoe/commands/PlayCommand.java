@@ -43,15 +43,16 @@ public class PlayCommand implements Command {
 		}
 		
 		int pipeIndex = inputTokens[1].indexOf('|');
-		String firstPlayer = Constants.AT + slackInput.getUser_id();
-		String secondPlayer = inputTokens[1].substring(1, pipeIndex);
+		String firstPlayer = slackInput.getUser_id();
+		String secondPlayer = inputTokens[1].substring(2, pipeIndex);
 		logger.info("firstPlayer: " + firstPlayer + " secondPlayer " + secondPlayer);
         
         //validated user
 		TicTacToe game = new TicTacToe(firstPlayer, secondPlayer);
 		gameMap.put(slackInput.getChannel_id(), game);
 	
-		return new ChannelResponse("Game started between <" + firstPlayer + "> and <" + secondPlayer + ">");
+		return new ChannelResponse("Game started between " + TTTUtils.formatUserId(firstPlayer) +
+				" and " + TTTUtils.formatUserId(secondPlayer));
 	}
 
 }

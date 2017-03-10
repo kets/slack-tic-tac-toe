@@ -11,6 +11,7 @@ import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.EphemeralResponse;
 import com.slack.tictactoe.responses.SlackResponse;
+import com.slack.tictactoe.utils.TTTUtils;
 import com.slack.tictactoe.models.GameState;
 
 public class MoveCommand implements Command{
@@ -33,7 +34,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 		
 		//check if it is the current player's turn
-		if(!isLegalMove(slackInput.getUser_name(), game)){
+		if(!isLegalMove(slackInput.getUser_id(), game)){
 			return new EphemeralResponse("Please wait for your turn!");
 		}		
 		
@@ -47,7 +48,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 				logger.debug("winner is: " + game.getCurrentPlayer());
 				//game is over, remove the game from the global gameMap				
 				gameMap.remove(slackInput.getChannel_id());				
-				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Congrats to " + Constants.AT + game.getCurrentPlayer() + " for winning the game!");
+				return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + "\n\n Congrats to " + TTTUtils.formatUserId(game.getCurrentPlayer()) + " for winning the game!");
 			} else if (game.getGameState().equals(GameState.TIE)){
 				//game is over/tie
 				gameMap.remove(slackInput.getChannel_id());				
@@ -62,7 +63,7 @@ private static final Logger logger = LoggerFactory.getLogger(MoveCommand.class);
 		}
 		
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS + 
-				"\n\nIt's " + Constants.AT + game.whoseTurn());
+				"\n\nIt's " + TTTUtils.formatUserId(game.whoseTurn()));
 	}
 	
 	private boolean isLegalMove(String currentUser, TicTacToe game) {

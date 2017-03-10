@@ -13,6 +13,7 @@ import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.EphemeralResponse;
 import com.slack.tictactoe.responses.SlackResponse;
+import com.slack.tictactoe.utils.TTTUtils;
 
 public class QuitCommand implements Command {
 	private static final Logger logger = LoggerFactory.getLogger(QuitCommand.class);
@@ -25,14 +26,14 @@ public class QuitCommand implements Command {
 		}
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
-		logger.debug("slackPlayer: " + slackInput.getUser_name());
+		logger.debug("slackPlayer: " + slackInput.getUser_id());
 		logger.debug("firstPlayer: " + game.getFirstPlayer());
 		logger.debug("secondPlayer: " + game.getSecondPlayer());
 		
 		//validate if the current user is authorized to quit the game. 
 		//only players of the current game can quit.
-		if(!game.getFirstPlayer().equals(slackInput.getUser_name())
-				&& !game.getSecondPlayer().equals(slackInput.getUser_name())) {
+		if(!game.getFirstPlayer().equals(slackInput.getUser_id())
+				&& !game.getSecondPlayer().equals(slackInput.getUser_id())) {
 			return new EphemeralResponse("You are not allowed to quit the game!");
 		}
 		
@@ -40,7 +41,7 @@ public class QuitCommand implements Command {
 		
 		gameMap.remove(slackInput.getChannel_id());
 		
-		return new ChannelResponse(slackInput.getUser_name() + " quit the game.");
+		return new ChannelResponse(TTTUtils.formatUserId(slackInput.getUser_id()) + " quit the game.");
 	}
 
 }

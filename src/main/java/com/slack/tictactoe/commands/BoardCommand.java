@@ -12,6 +12,7 @@ import com.slack.tictactoe.logging.LogMessage;
 import com.slack.tictactoe.models.SlackInput;
 import com.slack.tictactoe.responses.ChannelResponse;
 import com.slack.tictactoe.responses.SlackResponse;
+import com.slack.tictactoe.utils.TTTUtils;
 
 public class BoardCommand implements Command  {
 	private static final Logger logger = LoggerFactory.getLogger(BoardCommand.class);
@@ -30,7 +31,7 @@ public class BoardCommand implements Command  {
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 	
 		return new ChannelResponse(Constants.BACK_TICKS + game.displayBoard() + Constants.BACK_TICKS +
-				 "\n\n It's "+ game.whoseTurn());
+				 "\n\n It's "+ TTTUtils.formatUserId(game.whoseTurn()));
 	}
 
 }

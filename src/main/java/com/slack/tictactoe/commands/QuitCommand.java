@@ -29,8 +29,8 @@ public class QuitCommand implements Command {
 	public SlackResponse processCommand(SlackInput slackInput, Map<String, TicTacToe> gameMap) {
 		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "quit"));
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT5000I));
-			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
+			logger.error(LogMessage.getLogMsg(Messages.TTT5000E));
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000E));
 		}
 		
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());

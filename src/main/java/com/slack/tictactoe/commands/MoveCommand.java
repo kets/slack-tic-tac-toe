@@ -39,8 +39,8 @@ public class MoveCommand implements Command {
 
 		// check if this is a valid game
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT5000I));
-			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
+			logger.error(LogMessage.getLogMsg(Messages.TTT5000E));
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000E));
 		}
 
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
@@ -48,14 +48,14 @@ public class MoveCommand implements Command {
 		// check whether this user is participating in this game
 		if (!slackInput.getUser_id().equals(game.getFirstPlayer())
 				&& !slackInput.getUser_id().equals(game.getSecondPlayer())) {
-			logger.error(slackInput.getUser_name() + " is not playing this game.");
+			logger.error(slackInput.getUser_id() + " is not playing this game.");
 			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5004E));
 		}
 
 		// yes, user is playing in this game, then
 		// check if it is the current player's turn
 		if (!slackInput.getUser_id().equals(game.getCurrentPlayer())) {
-			logger.error(slackInput.getUser_name() + " is making an unauthorized move.");
+			logger.error(slackInput.getUser_id() + " is making an unauthorized move.");
 			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5005E));
 		}
 

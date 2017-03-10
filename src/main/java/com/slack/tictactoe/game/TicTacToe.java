@@ -112,12 +112,12 @@ public class TicTacToe {
 	private void validateMove(int row, int col) throws IllegalArgumentException {
 		if (row < 0 || row > board.length - 1 ||
 				col < 0 || col > board.length - 1) {
-			//TODO add to messages
+			logger.error(LogMessage.getLogMsg(Messages.TTT6000E));
 			throw new IllegalArgumentException (LogMessage.getLogMsg(Messages.TTT6000E));
 		}	
 		
 		if (board[row][col] != Constants.EMPTY_CELL) {
-			//TODO add to messages
+			logger.error(LogMessage.getLogMsg(Messages.TTT6001E));
 			throw new IllegalArgumentException (LogMessage.getLogMsg(Messages.TTT6001E));
 		}
 		

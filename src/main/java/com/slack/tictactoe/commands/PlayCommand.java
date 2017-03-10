@@ -36,8 +36,11 @@ public class PlayCommand implements Command {
 		
 		// check if an existing game is being played
 		if (gameMap.containsKey(slackInput.getChannel_id())) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT5002E));
-			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5002E));
+			TicTacToe existingGame = gameMap.get(slackInput.getChannel_id());
+			logger.error(LogMessage.getLogMsg(Messages.TTT5002E, 
+					TTTUtils.formatUserId(existingGame.getFirstPlayer()), TTTUtils.formatUserId(existingGame.getSecondPlayer())));
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5002E, 
+					TTTUtils.formatUserId(existingGame.getFirstPlayer()), TTTUtils.formatUserId(existingGame.getSecondPlayer())));
 		}
 		
 		// validate second user by checking if the user_id is passed in the text field

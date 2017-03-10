@@ -36,8 +36,8 @@ public class BoardCommand implements Command  {
 		}
 		
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT5000I));
-			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000I));
+			logger.error(LogMessage.getLogMsg(Messages.TTT5000E));
+			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000E));
 		}
 		
 		logger.debug("inputTokens: " + inputTokens[0]);

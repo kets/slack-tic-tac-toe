@@ -103,14 +103,13 @@ public class TicTacToe {
 		} else if(this.currentPiece == Constants.O) {
 			sb.append(this.secondPlayer);
 		}
-		return sb.append("\'s turn.").toString();
+		return sb.append(" 's turn.").toString();
 	}
 	
 	private boolean checkForWin(int row, int col, char mark) {
-		if (checkRows(row, col, mark) && checkCols(row, col, mark)) {
+		if (checkRows(row, col, mark) || checkCols(row, col, mark)) {
 			return true;
-		}	
-		
+		}			
 		if (row == col) {
 			//on a diagonal, so check for diagonal
 			return checkDiagonal(row, col, mark);
@@ -130,7 +129,6 @@ public class TicTacToe {
 					return false;
 				}
 			}
-			
 		}		
 		return true;		
 	}

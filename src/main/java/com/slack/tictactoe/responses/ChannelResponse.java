@@ -20,6 +20,7 @@ public class ChannelResponse extends SlackResponse {
 	/**
 	 * Overrides abstract function by setting the response_type
 	 */
+	@Override
 	public String getResponse_type() {
 		return this.response_type;
 	}

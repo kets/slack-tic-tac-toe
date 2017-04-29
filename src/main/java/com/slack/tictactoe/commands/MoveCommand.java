@@ -16,7 +16,7 @@ import com.slack.tictactoe.utils.TTTUtils;
 import com.slack.tictactoe.models.GameState;
 
 /**
- * Handles the processing when the 'play' command is invoked in Slack
+ * Handles the processing when the 'move' command is invoked in Slack
  */
 public class MoveCommand implements Command {
 
@@ -33,17 +33,19 @@ public class MoveCommand implements Command {
 		logger.debug(LogMessage.getLogMsg(Messages.TTT5014D, "move"));
 		
 		final String[] inputTokens = slackInput.getText().split(Constants.TEXT_DELIMITER);
-		if (inputTokens.length < 3) {
-			logger.error(LogMessage.getLogMsg(Messages.TTT5001E));
-			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5001E));
-		}
-		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
-
+		
 		// check if this is a valid game
 		if (!gameMap.containsKey(slackInput.getChannel_id())) {
 			logger.error(LogMessage.getLogMsg(Messages.TTT5000E));
 			return new ChannelResponse(LogMessage.getLogMsg(Messages.TTT5000E));
 		}
+		
+		//validate input tokens
+		if (inputTokens.length < 3) {
+			logger.error(LogMessage.getLogMsg(Messages.TTT5001E));
+			return new EphemeralResponse(LogMessage.getLogMsg(Messages.TTT5001E));
+		}
+		logger.debug("inputTokens: " + inputTokens[0] + " " + inputTokens[1] + " " + inputTokens[2]);
 
 		TicTacToe game = gameMap.get(slackInput.getChannel_id());
 
